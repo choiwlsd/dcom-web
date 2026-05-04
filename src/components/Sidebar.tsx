@@ -22,7 +22,8 @@ const Sidebar = ({isOpen, onClose}: SidebarProps) => {
           <>
             {/* 배경 dim */}
             <motion.div
-              className="fixed inset-0 bg-black/50"
+            // 흐려보이게 함
+              className="fixed inset-0 bg-white/50"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}

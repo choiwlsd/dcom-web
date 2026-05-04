@@ -18,7 +18,7 @@ function AppLayout() {
   return (
     <div className="flex">
       {/* Desktop Sidebar */}
-      <div className="hidden md:block  w-64">
+      <div className="hidden md:block w-64 bg-white">
         <Sidebar isOpen={true} onClose={() => {}} />
       </div>
 
