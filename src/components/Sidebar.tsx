@@ -50,7 +50,7 @@ const Sidebar = ({isOpen, onClose}: SidebarProps) => {
 export default Sidebar
 
 const SidebarContent = ({ navigate }: { navigate: any }) => (
-  <div className="flex flex-col gap-4">
+  <div className="flex flex-col gap-5 mt-5">
     <h2 className="text-xl font-bold">Menu</h2>
 
     <ul className="flex flex-col gap-3">
