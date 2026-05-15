@@ -1,9 +1,30 @@
+export interface User {
+  id: string;
+  pw: string;
+  studentNumber?: string;
+}
+
 export interface CurrentUser {
   username: string;
   isAdmin: boolean;
 }
 
 const USER_STORAGE_KEY = "user";
+
+export const register = (user: User) => {
+  // 실제로는 서버 API 호출이 필요하지만, 여기서는 간단히 처리
+  const users: User[] = JSON.parse(localStorage.getItem("users") || "[]");
+
+  // 이미 존재하는 아이디인지 확인
+  if (users.find((u) => u.id === user.id)) {
+    return false; 
+  }
+
+  // 새로운 사용자 추가
+  users.push(user);
+  localStorage.setItem("users", JSON.stringify(users));
+  return true;
+};
 
 const saveUser = (user: CurrentUser) => {
   localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(user));
@@ -16,7 +37,7 @@ export const login = (id: string, pw: string) => {
     return true;
   }
 
-  if (id === "user" && pw === "1234") {
+  if ((id === "user" || id === "1") && (pw === "1234" || pw === "1")) {
     localStorage.setItem("token", "mock-token-user123456");
     saveUser({ username: id, isAdmin: false });
     return true;

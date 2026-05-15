@@ -47,6 +47,9 @@ const Login = () => {
                         onChange={(e) => setPassword(e.target.value)} />   
                 </div>
                 <button className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600" type="submit">Login</button>
+                <span className="text-sm text-gray-500 mt-5 block text-center">
+                    Don't have an account? <a href="/register" className="text-blue-500 hover:underline">Register here</a>
+                </span>
             </form>
         </div>
     </div>
