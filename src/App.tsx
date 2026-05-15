@@ -1,51 +1,97 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
+import ProtectedRoute from "./components/ProtectedRoute";
+import ProfileMenu from "./components/ProfileMenu";
+import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Page1 from "./pages/Page1";
 import Page2 from "./pages/Page2";
 import PostDetail from "./pages/PostDetail";
+import Setting from "./pages/Setting";
 import { motion } from "framer-motion";
+import { getCurrentUser, isLoggedIn as checkIsLoggedIn } from "./auth/auth";
 
 function AppLayout() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(() => checkIsLoggedIn());
+  const [currentUser, setCurrentUser] = useState(() => getCurrentUser());
   const location = useLocation();
 
   // 라우트 변경될 때마다 sidebar 닫기
   useEffect(() => {
     setIsOpen(false);
+    setIsLoggedIn(checkIsLoggedIn());
+    setCurrentUser(getCurrentUser());
   }, [location.pathname]);
 
   return (
     <div className="flex font-sans">
 
-      {/* Desktop Sidebar */}
-      <div className="hidden md:block w-64 bg-white">
-        <Sidebar isOpen={true} onClose={() => {}} />
-      </div>
+      {isLoggedIn && (
+        <Sidebar isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      )}
 
-      {/* Mobile Sidebar */}
-      <Sidebar isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      {isLoggedIn && currentUser && <ProfileMenu user={currentUser} />}
 
       {/* Main Content */}
-      <div className="flex-1">
-        <motion.button
-          whileTap={{ scale: 0.9 }}
-          className="px-4 py-2 fixed top-4 left-4 md:hidden"
-          onClick={() => setIsOpen((prev) => !prev)}
-        >
-          {
-            !isOpen &&
-              <img src="src\assets\sidebar_icon.png" alt="sidebar" style={{width: '20px'}}/>
+      <div className={`flex-1 ${isLoggedIn ? "md:ml-64" : ""}`}>
+        {isLoggedIn && (
+          <motion.button
+            whileTap={{ scale: 0.9 }}
+            className="px-4 py-2 fixed top-4 left-4 md:hidden"
+            onClick={() => setIsOpen((prev) => !prev)}
+          >
+            {
+              !isOpen &&
+                <img src="src\assets\sidebar_icon.png" alt="sidebar" style={{width: '20px'}}/>
 
-          }
-        </motion.button>
+            }
+          </motion.button>
+        )}
 
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/page1" element={<Page1 />} />
-          <Route path="/post/:id" element={<PostDetail />} />
-          <Route path="/page2" element={<Page2 />} />
+          <Route path="/" element={<Login />} />
+          <Route
+            path="/home"
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/page1"
+            element={
+              <ProtectedRoute>
+                <Page1 />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/post/:id"
+            element={
+              <ProtectedRoute>
+                <PostDetail />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/page2"
+            element={
+              <ProtectedRoute>
+                <Page2 />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/setting"
+            element={
+              <ProtectedRoute requireAdmin>
+                <Setting />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </div>
 

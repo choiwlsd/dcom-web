@@ -1,5 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import type { NavigateFunction } from "react-router-dom";
+import { getCurrentUser } from "../auth/auth";
 
 interface SidebarProps {
     isOpen: boolean;
@@ -7,13 +9,16 @@ interface SidebarProps {
 }
 
 const Sidebar = ({isOpen, onClose}: SidebarProps) => {
+
     const navigate = useNavigate();
+    const currentUser = getCurrentUser();
+    const isAdmin = currentUser?.isAdmin ?? false;
 
     return(
       <>
         {/* 데스크탑 사이드바 (화면 크기 md 이상에서만 보임) */}
         <div className="hidden md:block fixed top-0 left-0 h-full w-64 bg-black text-white p-5 flex-col">        
-          <SidebarContent navigate={navigate} />
+          <SidebarContent navigate={navigate} isAdmin={isAdmin} />
         </div>
 
         {/* 모바일 사이드바 (토글) */}
@@ -38,7 +43,7 @@ const Sidebar = ({isOpen, onClose}: SidebarProps) => {
               exit={{ x: -300 }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
             >
-              <SidebarContent navigate={navigate} />
+              <SidebarContent navigate={navigate} isAdmin={isAdmin} />
             </motion.div>
           </>
         )}
@@ -49,11 +54,16 @@ const Sidebar = ({isOpen, onClose}: SidebarProps) => {
 
 export default Sidebar
 
-const SidebarContent = ({ navigate }: { navigate: any }) => (
-  <div className="flex flex-col gap-5 mt-5">
+interface SidebarContentProps {
+  navigate: NavigateFunction;
+  isAdmin: boolean;
+}
+
+const SidebarContent = ({ navigate, isAdmin }: SidebarContentProps) => (
+  <div className="flex flex-col gap-10 mt-5">
     <h2 className="text-xl font-bold">Menu</h2>
 
-    <ul className="flex flex-col gap-3">
+    <ul className="flex flex-col gap-5">
       <li onClick={() => navigate('/')} className="hover:text-blue-500 cursor-pointer">
         Home
       </li>
@@ -63,6 +73,11 @@ const SidebarContent = ({ navigate }: { navigate: any }) => (
       <li onClick={() => navigate('/page2')} className="hover:text-blue-500 cursor-pointer">
         Page 2
       </li>
+      {isAdmin && (
+        <li onClick={() => navigate('/setting')} className="hover:text-blue-500 cursor-pointer">
+          관리
+        </li>
+      )}
     </ul>
   </div>
 );
