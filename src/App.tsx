@@ -11,7 +11,7 @@ import Page2 from "./pages/Page2";
 import PostDetail from "./pages/PostDetail";
 import Setting from "./pages/Setting";
 import { motion } from "framer-motion";
-import { getCurrentUser, isLoggedIn as checkIsLoggedIn } from "./auth/auth";
+import { getCurrentUser, isLoggedIn as checkIsLoggedIn } from "./data/auth";
 
 function AppLayout() {
   const [isOpen, setIsOpen] = useState(false);

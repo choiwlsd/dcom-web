@@ -5,7 +5,7 @@ const Page1 = () => {
 
     return (
         <div className="p-20">
-            <h1>Page 1</h1>
+            <h1>게시판</h1>
             <p>This is the content for Page 1.</p>
 
             <div className="mt-10 grid gap-5 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">                

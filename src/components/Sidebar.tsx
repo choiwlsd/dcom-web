@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import type { NavigateFunction } from "react-router-dom";
-import { getCurrentUser } from "../auth/auth";
+import { getCurrentUser } from "../data/auth";
 
 interface SidebarProps {
     isOpen: boolean;

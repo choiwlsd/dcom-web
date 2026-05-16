@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from "react";
-import type { CurrentUser } from "../auth/auth";
-import { logout } from "../auth/auth";
+import type { CurrentUser } from "../data/auth";
+import { logout } from "../data/auth";
 
 interface ProfileMenuProps {
   user: CurrentUser;

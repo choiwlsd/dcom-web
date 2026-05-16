@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
-import { login } from "../auth/auth";
+import { login } from "../data/auth";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
