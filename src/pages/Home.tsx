@@ -13,17 +13,15 @@ const Home = () => {
 
                 {/* 활동요약 */}
                 <Container title="활동요약">
-                    <div className="space-y-3">
-                        {data.map(item => (
-                            <Card
-                                key={item.id}
-                                title={item.title}
-                                description={item.description}
-                                onClick={() => navigate(`/exam-archive/${item.id}`)}
+                    {data.map(item => (
+                        <Card
+                            key={item.id}
+                            title={item.title}
+                            description={item.description}
+                            onClick={() => navigate(`/exam-archive/${item.id}`)}
 
-                            />
-                        ))}
-                    </div>
+                        />
+                    ))}
                 </Container>
 
                 {/* 공지사항 */}

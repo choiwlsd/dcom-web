@@ -10,6 +10,7 @@ const Container = ({ title, children }: ContainerProps) => {
                 border
                 p-6
                 rounded-lg
+                space-y-3
                 shadow-md
                 bg-white
                 hover:shadow-xl
