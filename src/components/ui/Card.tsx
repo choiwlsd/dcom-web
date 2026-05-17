@@ -1,29 +1,21 @@
 type CardProps = {
-    title: string;
-    children: React.ReactNode;
+  title: string;
+  description?: string;
+  onClick?: () => void;
 };
 
-const Card = ({ title, children }: CardProps) => {
-    return (
-        <div
-            className="
-                border
-                p-6
-                rounded-lg
-                shadow-md
-                bg-white
-                hover:shadow-xl
-                transition-all
-                duration-300
-            "
-        >
-            <h2 className="text-xl font-bold mb-4">
-                {title}
-            </h2>
-
-            {children}
-        </div>
-    );
+const Card = ({ title, description, onClick }: CardProps) => {
+  return (
+    <div
+      onClick={onClick}
+      className="border p-4 rounded-xl cursor-pointer hover:shadow-xl transition"
+    >
+      <h2 className="text-lg font-bold mb-2">{title}</h2>
+      {description && (
+        <p className="text-sm text-gray-600">{description}</p>
+      )}
+    </div>
+  );
 };
 
 export default Card;
