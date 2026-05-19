@@ -8,11 +8,20 @@ import Register from "./pages/Register";
 import Home from "./pages/Home";
 import ExamArchive from "./pages/Exam-Archive";
 import ExamArchiveDetail from "./pages/Exam-Archive-Detail";
-import Page2 from "./pages/Page2";
 import Manage from "./pages/Manage";
 import Profile from "./pages/Profile";
 import { motion } from "framer-motion";
 import { getCurrentUser, isLoggedIn as checkIsLoggedIn } from "./features/auth";
+import InfoSharing from "./pages/Info-Sharing";
+
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <AppLayout />
+    </BrowserRouter>
+  );
+}
 
 function AppLayout() {
   const [isOpen, setIsOpen] = useState(false);
@@ -80,10 +89,10 @@ function AppLayout() {
             }
           />
           <Route
-            path="/page2"
+            path="/info-sharing"
             element={
               <ProtectedRoute>
-                <Page2 />
+                <InfoSharing />
               </ProtectedRoute>
             }
           />
@@ -107,10 +116,4 @@ function AppLayout() {
   );
 }
 
-export default function App() {
-  return (
-    <BrowserRouter>
-      <AppLayout />
-    </BrowserRouter>
-  );
-}
+

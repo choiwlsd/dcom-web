@@ -72,8 +72,11 @@ const SidebarContent = ({ navigate, isAdmin }: SidebarContentProps) => (
       <li onClick={() => navigate('/exam-archive')} className="hover:text-blue-800 cursor-pointer">
         족보
       </li>
-      <li onClick={() => navigate('/page2')} className="hover:text-blue-800 cursor-pointer">
-        Page 2
+      <li onClick={() => navigate('/info-sharing')} className="hover:text-blue-800 cursor-pointer">
+        정보 공유
+      </li>
+      <li onClick={() => navigate('/gallery')} className="hover:text-blue-800 cursor-pointer">
+        활동사진
       </li>
       {isAdmin && (
         <li onClick={() => navigate('/manage')} className="hover:text-blue-800 cursor-pointer">
