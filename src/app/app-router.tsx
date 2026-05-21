@@ -1,7 +1,7 @@
 // src/app/router.tsx
 
 import { Routes, Route } from "react-router-dom";
-import AppLayout from "./AppLayout";
+import AppLayout from "./app-layout";
 
 import Login from "../pages/Login";
 import Register from "../pages/Register";

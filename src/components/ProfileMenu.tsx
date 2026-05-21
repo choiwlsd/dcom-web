@@ -29,7 +29,7 @@ const ProfileMenu = ({ user }: ProfileMenuProps) => {
   }, []);
 
   return (
-    <div ref={menuRef} className="fixed top-4 right-4 z-40">
+    <div ref={menuRef} className="relative">
       <button
         type="button"
         className="flex h-11 w-11 items-center justify-center rounded-full bg-black text-sm font-bold text-white shadow-lg transition hover:bg-gray-800"

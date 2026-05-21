@@ -1,9 +1,11 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate, useLocation } from "react-router-dom";
 import type { NavigateFunction } from "react-router-dom";
-import { getCurrentUser } from "../features/auth";
+import { getCurrentUser, type CurrentUser } from "../features/auth";
+import ProfileMenu from "./ProfileMenu";
+import dcomLogo from "../assets/dcom-logo.png";
 
-interface SidebarProps {
+interface NavbarProps {
   isOpen: boolean;
   onClose: () => void;
 }
@@ -11,11 +13,12 @@ interface SidebarProps {
 const menu = [
   { label: "Home", path: "/home" },
   { label: "족보", path: "/exam-archive" },
+  { label: "공지사항", path: "/notice" },
   { label: "정보 공유", path: "/info-sharing" },
   { label: "활동사진", path: "/gallery" },
 ];
 
-const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
+const Navbar = ({ isOpen, onClose }: NavbarProps) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -25,13 +28,14 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
   return (
     <>
       {/* 데스크탑 사이드바 */}
-      <div className="hidden md:block fixed top-0 left-0 h-full w-64 bg-black text-white p-5 flex-col">
-        <SidebarContent
+      <nav className="fixed top-0 left-0 right-0 h-20 bg-white/95 backdrop-blur-sm border-b border-gray-200 z-50 shadow-sm">
+        <NavbarContent
           navigate={navigate}
           isAdmin={isAdmin}
           currentPath={location.pathname}
+          currentUser={currentUser}
         />
-      </div>
+      </nav>
 
       {/* 모바일 사이드바 */}
       <AnimatePresence>
@@ -54,10 +58,11 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
               exit={{ x: -300 }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
             >
-              <SidebarContent
+              <NavbarContent
                 navigate={navigate}
                 isAdmin={isAdmin}
                 currentPath={location.pathname}
+                currentUser={currentUser}
               />
             </motion.div>
           </>
@@ -67,58 +72,69 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
   );
 };
 
-export default Sidebar;
+export default Navbar;
 
-interface SidebarContentProps {
+interface NavbarContentProps {
   navigate: NavigateFunction;
   isAdmin: boolean;
   currentPath: string;
+  currentUser: CurrentUser | null;
 }
 
-const SidebarContent = ({
+const NavbarContent = ({
   navigate,
   isAdmin,
   currentPath,
-}: SidebarContentProps) => {
+  currentUser,
+}: NavbarContentProps) => {
   const isActive = (path: string) => currentPath === path;
 
   return (
-    <div className="flex flex-col gap-10 mt-5">
+    <div className="flex flex-row gap-10 ml-10 mr-10 h-full items-center justify-between">
       <h2
         className="text-xl font-bold cursor-pointer"
         onClick={() => navigate("/home")}
       >
-        Menu
+        <img
+          src={dcomLogo}
+          alt="DCOM Logo"
+          className="w-20 inline-block mr-2"
+        />
       </h2>
 
-      <ul className="flex flex-col gap-5">
-        {menu.map((item) => (
-          <li
-            key={item.path}
-            onClick={() => navigate(item.path)}
-            className={`cursor-pointer transition-colors hover:text-blue-400 ${
-              isActive(item.path)
-                ? "text-blue-500 font-bold"
-                : "text-white"
-            }`}
-          >
-            {item.label}
-          </li>
-        ))}
+      <div className="flex items-center gap-20">
+        <ul className="flex flex-row gap-10">
+          {menu.map((item) => (
+            <li
+              key={item.path}
+              onClick={() => navigate(item.path)}
+              className={`cursor-pointer transition-colors hover:text-blue-400 ${
+                isActive(item.path)
+                  ? "text-black font-bold"
+                  : "text-blue-500 font-bold"
+              }`}
+            >
+              {item.label}
+            </li>
+          ))}
 
-        {isAdmin && (
-          <li
-            onClick={() => navigate("/manage")}
-            className={`cursor-pointer transition-colors hover:text-blue-400 ${
-              isActive("/manage")
-                ? "text-blue-500 font-bold"
-                : "text-white"
-            }`}
-          >
-            관리
-          </li>
-        )}
-      </ul>
+          {isAdmin && (
+            <li
+              onClick={() => navigate("/manage")}
+              className={`cursor-pointer transition-colors hover:text-blue-400 ${
+                isActive("/manage")
+                  ? "text-black font-bold"
+                  : "text-blue-500 font-bold"
+              }`}
+            >
+              관리
+            </li>
+          )}
+        </ul>
+
+        {currentUser && <ProfileMenu user={currentUser} />}
+      </div>
     </div>
+
   );
 };

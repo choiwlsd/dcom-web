@@ -15,7 +15,7 @@ export default function Profile() {
     if (!user) return null;
 
   return (
-    <div className="p-20">
+    <div className="pt-28">
         <Container title="회원정보 수정" >
 
             <div className="flex items-center justify-center">

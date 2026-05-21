@@ -8,28 +8,31 @@ const Home = () => {
     const { data } = useExamArchives();
 
     return (
-        <div className="p-20"> 
-            <div className="grid gap-5 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">   
+        <div className="pt-28 bg-red-400">
+            <div className="mx-auto max-w-7xl">
 
-                {/* 활동요약 */}
-                <Container title="활동요약">
-                    {data.map(item => (
-                        <Card
-                            key={item.id}
-                            title={item.title}
-                            description={item.description}
-                            onClick={() => navigate(`/exam-archive/${item.id}`)}
+                <div className="grid gap-5 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">   
 
-                        />
-                    ))}
-                </Container>
+                    {/* 활동요약 */}
+                    <Container title="활동요약">
+                        {data.map(item => (
+                            <Card
+                                key={item.id}
+                                title={item.title}
+                                description={item.description}
+                                onClick={() => navigate(`/exam-archive/${item.id}`)}
 
-                {/* 공지사항 */}
-                <Container title="공지사항">
-                    <p>공지사항 내용</p>
-                </Container> 
-                                
-                
+                            />
+                        ))}
+                    </Container>
+
+                    {/* 공지사항 */}
+                    <Container title="공지사항">
+                        <p>공지사항 내용</p>
+                    </Container> 
+                                    
+                    
+                </div>
             </div>
         </div>
     );
