@@ -8,15 +8,19 @@ export function useProfileEdit() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [initialInfo, setInitialInfo] = useState<User | null>(null);
 
   useEffect(() => {
     fetchUser().then((data: User) => {
       setUser(data);
+      setInitialInfo(data); // 초기값 저장
       setLoading(false);
     });
   }, []);
 
-   const saveUser = async () => {
+  const isDirty = JSON.stringify(user) !== JSON.stringify(initialInfo);
+
+  const saveUser = async () => {
     if (!user) return;
 
     try {
@@ -40,5 +44,6 @@ export function useProfileEdit() {
     loading,
     saving,
     saveUser,
+    isDirty
   };
 }

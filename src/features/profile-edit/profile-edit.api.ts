@@ -1,18 +1,43 @@
 // profile-edit/profile-edit.api.ts
 
+import type { AuthUser } from "../../data/authuser.type";
 import type { User } from "../../data/user.type";
 import { mockUsers } from "../../data/user-data.mock";
+import { getCurrentUser } from "../auth";
 
-// 현재 로그인 유저라고 가정
-const CURRENT_USER_ID = 1;
+const USER_STORAGE_KEY = "user";
+
+const getLocalUsers = (): User[] =>
+  JSON.parse(localStorage.getItem("users") || "[]");
+
+const saveCurrentUser = (user: User) => {
+  const { password, ...authUser } = user;
+  localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(authUser));
+};
+
+const findFullUser = (authUser: AuthUser | null): User | undefined => {
+  if (!authUser) return undefined;
+
+  const localUsers = getLocalUsers();
+  const allUsers = [...mockUsers, ...localUsers];
+
+  return allUsers.find(
+    (u) => u.username === authUser.username || u.id === authUser.id
+  );
+};
 
 // 조회
 export function fetchUser(): Promise<User> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      const user = mockUsers.find(
-        (u) => u.id === CURRENT_USER_ID
-      );
+      const authUser = getCurrentUser();
+
+      if (!authUser) {
+        reject(new Error("로그인된 사용자가 없습니다."));
+        return;
+      }
+
+      const user = findFullUser(authUser);
 
       if (!user) {
         reject(new Error("유저를 찾을 수 없습니다."));
@@ -30,21 +55,33 @@ export function updateUser(
 ): Promise<User> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      const index = mockUsers.findIndex(
+      const localUsers = getLocalUsers();
+      const mockIndex = mockUsers.findIndex(
         (u) => u.id === updatedUser.id
       );
+      const localIndex = localUsers.findIndex(
+        (u) => u.id === updatedUser.id || u.username === updatedUser.username
+      );
 
-      if (index === -1) {
+      if (mockIndex === -1 && localIndex === -1) {
         reject(new Error("유저를 찾을 수 없습니다."));
         return;
       }
 
-      // 기존 유저 덮어쓰기
-      mockUsers[index] = updatedUser;
+      if (mockIndex !== -1) {
+        mockUsers[mockIndex] = updatedUser;
+      }
 
-      console.log("수정된 유저:", mockUsers[index]);
+      if (localIndex !== -1) {
+        localUsers[localIndex] = updatedUser;
+        localStorage.setItem("users", JSON.stringify(localUsers));
+      }
 
-      resolve(mockUsers[index]);
+      saveCurrentUser(updatedUser);
+
+      console.log("수정된 유저:", updatedUser);
+
+      resolve(updatedUser);
     }, 1000);
   });
 }

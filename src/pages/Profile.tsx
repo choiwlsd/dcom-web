@@ -8,7 +8,7 @@ import Loading from "../components/Loading";
 export default function Profile() {
     const [passwordConfirm, setpasswordConfirm] = useState("");
     
-    const { user, setUser, loading, saving, saveUser } = useProfileEdit();
+    const { user, setUser, loading, saving, saveUser, isDirty } = useProfileEdit();
     
 
     if (loading) return <Loading />;
@@ -17,6 +17,8 @@ export default function Profile() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:px-8">
         <Container title="회원정보 수정" >
+
+            <p className="text-sm text-gray-600 mb-4">현재 로그인된 사용자: <strong>{user.username}</strong></p>
 
             <div className="flex items-center justify-center">
                 <img
@@ -157,7 +159,7 @@ export default function Profile() {
                 <div className="flex justify-end pt-2">
                     <button
                       onClick={saveUser}
-                      disabled={saving} 
+                      disabled={saving || loading || !isDirty} 
                       className="px-4 py-2 rounded bg-blue-400 text-white hover:bg-blue-500 transition-colors"
                     >
                     {saving ? "저장 중..." : "저장"}
