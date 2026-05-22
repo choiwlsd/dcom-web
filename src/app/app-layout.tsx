@@ -18,13 +18,13 @@ export default function AppLayout() {
   }
 
   return (
-    <div className="flex">
+    <div className="flex min-h-screen">
       <Navbar
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
       />
 
-      <div className="flex-1 md:ml-64">
+      <main className="flex-1 pt-20">
         <MobileSidebarButton
           isOpen={isOpen}
           onClick={() =>
@@ -33,7 +33,7 @@ export default function AppLayout() {
         />
 
         <Outlet />
-      </div>
+      </main>
     </div>
   );
 }

@@ -1,8 +1,7 @@
 export default function Loading() {
   return (
-    <div className="flex items-center justify-center h-full w-full">
-      
-      <div className="flex flex-col items-center gap-3 mt-100">
+    <div className="flex min-h-[calc(100vh-5rem)] w-full items-center justify-center">
+      <div className="flex flex-col items-center gap-3">
         
         {/* Spinner */}
         <div

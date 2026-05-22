@@ -8,7 +8,7 @@ const Home = () => {
     const { data } = useExamArchives();
 
     return (
-        <div className="pt-28 bg-red-400">
+        <div className="bg-red-400 px-4 py-8 sm:px-6 lg:px-20">
             <div className="mx-auto max-w-7xl">
 
                 <div className="grid gap-5 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">   

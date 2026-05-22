@@ -8,7 +8,7 @@ const ExamArchive = () => {
   const { data } = useExamArchives();
 
   return (
-    <div className="p-20">
+    <div className="px-4 py-8 sm:px-6 lg:px-20">
 
       <div className="grid gap-5 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">
 
