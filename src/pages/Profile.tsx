@@ -18,7 +18,7 @@ export default function Profile() {
     <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:px-8">
         <Container title="회원정보 수정" >
 
-            <p className="text-sm text-gray-600 mb-4">현재 로그인된 사용자: <strong>{user.username}</strong></p>
+            <p className="text-sm text-gray-600 mb-4">현재 로그인된 사용자: <strong>{user.userID}</strong></p>
 
             <div className="flex items-center justify-center">
                 <img
@@ -35,7 +35,7 @@ export default function Profile() {
                     <p className="text-xs text-gray-500">아이디</p>
 
                     <Input
-                        value={user.username}
+                        value={user.userID}
                         readOnly
                         className="cursor-not-allowed bg-gray-100"
                     />

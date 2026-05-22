@@ -4,7 +4,7 @@ import type { User } from "./user.type";
 export const mockUsers: User[] = [
   {
     id: 1,
-    username: "hong123",
+    userID: "hong123",
     email: "hong@gmail.com",
     name: "홍길동",
     studentNumber: "20230001",
@@ -15,7 +15,7 @@ export const mockUsers: User[] = [
   },
   {
     id: 2,
-    username: "hello",
+    userID: "hello",
     email: "hello@gmail.com",
     name: "아델",
     studentNumber: "20230002",
@@ -26,7 +26,7 @@ export const mockUsers: User[] = [
   },
   {
     id: 3,
-    username: "leejiwon",
+    userID: "leejiwon",
     email: "jiwon@gmail.com",
     name: "이지원",
     studentNumber: "20230003",
@@ -37,7 +37,7 @@ export const mockUsers: User[] = [
   },
   {
     id: 4,
-    username: "parkseo",
+    userID: "parkseo",
     email: "seo@gmail.com",
     name: "박서연",
     studentNumber: "20230004",
@@ -48,7 +48,7 @@ export const mockUsers: User[] = [
   },
   {
     id: 5,
-    username: "user",
+    userID: "user",
     email: "user@gmail.com",
     name: "사용자",
     studentNumber: "20209999",
@@ -59,7 +59,7 @@ export const mockUsers: User[] = [
   },
   {
     id: 5,
-    username: "admin",
+    userID: "admin",
     email: "admin@gmail.com",
     name: "관리자",
     studentNumber: "20239999",

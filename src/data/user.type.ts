@@ -1,7 +1,7 @@
 // user.type.ts
 export type User = {
   id: number;
-  username: string;
+  userID: string;
   email: string;
   name: string;
   studentNumber: string;

@@ -7,9 +7,9 @@ import type { AuthUser } from "../data/authuser.type";
 const USER_STORAGE_KEY = "user";
 const TOKEN_STORAGE_KEY = "token";
 
-// 유저네임 유효성 검사
-const validateId = (username: string) => {
-  return username.length >= 4 && username.length <= 20;
+// userID 유효성 검사
+const validateId = (userID: string) => {
+  return userID.length >= 4 && userID.length <= 20;
 };
 
 // 비밀번호 유효성 검사
@@ -35,10 +35,10 @@ export const register = (user: User) => {
     localStorage.getItem("users") || "[]"
   );
 
-  // username 중복 체크
+  // userID 중복 체크
   const isExist =
-    users.some((u) => u.username === user.username) ||
-    mockUsers.some((u) => u.username === user.username);
+    users.some((u) => u.userID === user.userID) ||
+    mockUsers.some((u) => u.userID === user.userID);
 
   if (isExist) {
     return false;
@@ -46,7 +46,7 @@ export const register = (user: User) => {
 
   // 유효성 검사
   if (
-    !validateId(user.username) ||
+    !validateId(user.userID) ||
     !validatePassword(user.password)
   ) {
     return false;
@@ -72,7 +72,7 @@ const saveUser = (user: AuthUser) => {
 
 // 로그인
 export const login = (
-  username: string,
+  userID: string,
   pw: string
 ) => {
   // mock + local users 합치기
@@ -84,7 +84,7 @@ export const login = (
 
   const user = users.find(
     (u) =>
-      u.username === username &&
+      u.userID === userID &&
       u.password === pw
   );
 

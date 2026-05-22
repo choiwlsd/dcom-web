@@ -11,7 +11,7 @@ interface ProfileMenuProps {
 const ProfileMenu = ({ user }: ProfileMenuProps) => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
-  const initial = user.username.charAt(0).toUpperCase();
+  const initial = user.userID.charAt(0).toUpperCase();
 
   const menuRef = useRef<HTMLDivElement>(null);
   
@@ -50,8 +50,8 @@ const ProfileMenu = ({ user }: ProfileMenuProps) => {
 
           <div className="mt-4 space-y-3">
             <div>
-              <p className="text-xs font-medium text-gray-500">Username</p>
-              <p className="mt-1 text-sm font-semibold">{user.username}</p>
+              <p className="text-xs font-medium text-gray-500">User ID</p>
+              <p className="mt-1 text-sm font-semibold">{user.userID}</p>
             </div>
 
             <div>

@@ -22,7 +22,7 @@ const findFullUser = (authUser: AuthUser | null): User | undefined => {
   const allUsers = [...mockUsers, ...localUsers];
 
   return allUsers.find(
-    (u) => u.username === authUser.username || u.id === authUser.id
+    (u) => u.userID === authUser.userID || u.id === authUser.id
   );
 };
 
@@ -60,7 +60,7 @@ export function updateUser(
         (u) => u.id === updatedUser.id
       );
       const localIndex = localUsers.findIndex(
-        (u) => u.id === updatedUser.id || u.username === updatedUser.username
+        (u) => u.id === updatedUser.id || u.userID === updatedUser.userID
       );
 
       if (mockIndex === -1 && localIndex === -1) {

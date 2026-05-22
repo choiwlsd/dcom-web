@@ -3,7 +3,7 @@
 type Props = {
   user: {
     studentNumber: string;
-    username: string;
+    userID: string;
   };
 };
 
@@ -13,7 +13,7 @@ export default function UserDisplayName({ user }: Props) {
       <div className="bg-slate-200 font-bold shadow-sm p-1 m-1 h-7 flex items-center">
         {user.studentNumber.slice(0, 2)}
       </div>
-      {user.username}
+      {user.userID}
     </span>
   );
 }

@@ -4,7 +4,7 @@ import { register } from "../features/auth";
 import type { User } from "../data/user.type";
 
 const Register = () => {
-  const [username, setUsername] = useState("");
+  const [userID, setUserID] = useState("");
   const [password, setPassword] = useState("");
   const [studentNumber, setStudentNumber] = useState("");
   const navigate = useNavigate();
@@ -14,13 +14,14 @@ const Register = () => {
 
     const userInput: User = {
       id: Date.now(),
-      username,
+      userID,
       password,
       studentNumber,
       email: "",
       name: "",
       phoneNumber: "",
       image: "",
+      role: "USER",
     };
 
     const success = register(userInput);
@@ -38,16 +39,16 @@ const Register = () => {
 
         <form onSubmit={handleRegister}>
           <div className="mb-4">
-            <label className="mb-2 block text-gray-700" htmlFor="username">
-              Username
+            <label className="mb-2 block text-gray-700" htmlFor="userID">
+              User ID
             </label>
             <input
               className="w-full rounded border px-3 py-2"
               type="text"
-              id="username"
-              placeholder="Enter your username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              id="userID"
+              placeholder="Enter your user ID"
+              value={userID}
+              onChange={(e) => setUserID(e.target.value)}
             />
           </div>
 
