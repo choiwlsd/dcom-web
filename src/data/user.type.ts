@@ -8,5 +8,5 @@ export type User = {
   phoneNumber: string;
   image: string;
   password: string;
-  // role: "USER" | "ADMIN";
+  role: "USER" | "ADMIN";
 };

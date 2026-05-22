@@ -1,9 +1,8 @@
 // useAuth.ts
 
 import { useEffect, useState } from "react";
-
+import type { AuthUser } from "../data/authuser.type";
 import {
-  type CurrentUser,
   getCurrentUser,
   isLoggedIn as checkIsLoggedIn,
   login as authLogin,
@@ -16,7 +15,7 @@ export default function useAuth() {
   );
 
   const [currentUser, setCurrentUser] =
-    useState<CurrentUser | null>(
+    useState<AuthUser | null>(
       getCurrentUser()
     );
 

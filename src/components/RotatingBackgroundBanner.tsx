@@ -9,7 +9,7 @@ interface RotatingBackgroundBannerProps {
 
 export default function RotatingBackgroundBanner({
   images,
-  intervalMs = 5000,
+  intervalMs = 8000,
   className = "",
 }: RotatingBackgroundBannerProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -30,7 +30,7 @@ export default function RotatingBackgroundBanner({
     <section
       className={`relative h-[270px] w-full overflow-hidden md:h-[450px] ${className}`}
     >
-      <AnimatePresence mode="wait">
+      <AnimatePresence>
         <motion.img
           key={images[currentIndex]}
           src={images[currentIndex]}
@@ -42,8 +42,6 @@ export default function RotatingBackgroundBanner({
           transition={{ duration: 0.8, ease: "easeInOut" }}
         />
       </AnimatePresence>
-
-      <div className="absolute inset-0 bg-black/20" />
     </section>
   );
 }

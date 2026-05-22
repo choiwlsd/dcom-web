@@ -1,0 +1,4 @@
+User            // 서버 원본
+AuthUser        // 로그인 사용자
+UserProfile     // 프로필 화면용
+UserSummary     // 리스트용

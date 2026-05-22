@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { fetchUser, updateUser } from "./profile-edit.api";
-import { type User } from "../user.type";
+import { type User } from "../../data/user.type";
 
 export function useProfileEdit() {
   const [user, setUser] = useState<User | null>(null);

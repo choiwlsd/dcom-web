@@ -1,10 +1,11 @@
 import { useRef, useState, useEffect } from "react";
-import type { CurrentUser } from "../features/auth";
+import type { AuthUser } from "../data/authuser.type";
+import UserDisplayName from "./ui/UserDisplay";
 import { logout } from "../features/auth";
 import { useNavigate } from "react-router-dom";
 
 interface ProfileMenuProps {
-  user: CurrentUser;
+  user: AuthUser;
 }
 
 const ProfileMenu = ({ user }: ProfileMenuProps) => {
@@ -30,6 +31,8 @@ const ProfileMenu = ({ user }: ProfileMenuProps) => {
 
   return (
     <div ref={menuRef} className="relative">
+      <div className="flex flex-row items-center gap-5">
+        <UserDisplayName user={user} />
       <button
         type="button"
         className="flex h-11 w-11 items-center justify-center rounded-full bg-black text-sm font-bold text-white shadow-lg transition hover:bg-gray-800"
@@ -38,6 +41,8 @@ const ProfileMenu = ({ user }: ProfileMenuProps) => {
       >
         {initial}
       </button>
+    </div>
+
 
       {isOpen && (
         <div className="absolute right-0 mt-3 w-56 rounded-lg border border-gray-200 bg-white p-4 text-gray-900 shadow-xl">

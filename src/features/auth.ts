@@ -1,99 +1,144 @@
-import { type User } from "./user.type";
+// auth.ts
 
-export interface CurrentUser {
-  username: string;
-  isAdmin: boolean;
-  studentNumber?: string;
-}
+import type { User } from "../data/user.type";
+import { mockUsers } from "../data/user-data.mock";
+import type { AuthUser } from "../data/authuser.type";
 
 const USER_STORAGE_KEY = "user";
+const TOKEN_STORAGE_KEY = "token";
 
-// 유저네임 유효성 검사 > Id를 Username으로 변경
+// 유저네임 유효성 검사
 const validateId = (username: string) => {
   return username.length >= 4 && username.length <= 20;
-}
+};
 
 // 비밀번호 유효성 검사
 const validatePassword = (pw: string) => {
   // 최소 8자 + 영문 + 숫자 포함
-  const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+  const passwordRegex =
+    /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+
   return passwordRegex.test(pw);
-}
+};
 
-// 회원가입 함수 - 실제로는 서버 API 호출이 필요하지만, 여기서는 간단히 처리
+// password 제거
+const excludePassword = (
+  user: User
+): AuthUser => {
+  const { password, ...safeUser } = user;
+  return safeUser;
+};
+
+// 회원가입
 export const register = (user: User) => {
-  // 실제로는 서버 API 호출이 필요하지만, 여기서는 간단히 처리
-  const users: User[] = JSON.parse(localStorage.getItem("users") || "[]");
+  const users: User[] = JSON.parse(
+    localStorage.getItem("users") || "[]"
+  );
 
-  // 중복 아이디 확인
-  if (users.find((u) => u.id === user.id)) {
-    return false; 
-  }
+  // username 중복 체크
+  const isExist =
+    users.some((u) => u.username === user.username) ||
+    mockUsers.some((u) => u.username === user.username);
 
-  // 아이디와 비밀번호 유효성 검사
-  if (!validateId(user.username) || !validatePassword(user.password)) {
+  if (isExist) {
     return false;
   }
 
-  // 새로운 사용자 추가
+  // 유효성 검사
+  if (
+    !validateId(user.username) ||
+    !validatePassword(user.password)
+  ) {
+    return false;
+  }
+
   users.push(user);
-  localStorage.setItem("users", JSON.stringify(users));
+
+  localStorage.setItem(
+    "users",
+    JSON.stringify(users)
+  );
+
   return true;
 };
 
-const saveUser = (user: CurrentUser) => {
-  localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(user));
+// 현재 로그인 유저 저장
+const saveUser = (user: AuthUser) => {
+  localStorage.setItem(
+    USER_STORAGE_KEY,
+    JSON.stringify(user)
+  );
 };
 
-// 로그인 함수 - 실제로는 서버 API 호출이 필요하지만, 여기서는 간단히 처리
-export const login = (id: string, pw: string) => {
-  if (id === "admin" && pw === "1234") {
-    localStorage.setItem("token", "mock-token-admin123456");
-    saveUser({ username: id, isAdmin: true });
-    return true;
+// 로그인
+export const login = (
+  username: string,
+  pw: string
+) => {
+  // mock + local users 합치기
+  const localUsers: User[] = JSON.parse(
+    localStorage.getItem("users") || "[]"
+  );
+
+  const users = [...mockUsers, ...localUsers];
+
+  const user = users.find(
+    (u) =>
+      u.username === username &&
+      u.password === pw
+  );
+
+  if (!user) {
+    return false;
   }
 
-  if ((id === "user" || id === "1") && (pw === "1234" || pw === "1")) {
-    localStorage.setItem("token", "mock-token-user123456");
-    saveUser({ username: id, isAdmin: false });
-    return true;
-  }
+  localStorage.setItem(
+    TOKEN_STORAGE_KEY,
+    "mock-token"
+  );
 
-  return false;
+  saveUser(excludePassword(user));
+
+  return true;
 };
 
-
+// 로그인 여부
 export const isLoggedIn = () => {
-  return !!localStorage.getItem("token");
+  return !!localStorage.getItem(
+    TOKEN_STORAGE_KEY
+  );
 };
 
+// 현재 유저 조회
+export const getCurrentUser =
+  (): AuthUser | null => {
+    const savedUser =
+      localStorage.getItem(USER_STORAGE_KEY);
 
-export const getCurrentUser = (): CurrentUser | null => {
-  const savedUser = localStorage.getItem(USER_STORAGE_KEY);
-
-  if (savedUser) {
-    try {
-      return JSON.parse(savedUser) as CurrentUser;
-    } catch {
-      localStorage.removeItem(USER_STORAGE_KEY);
+    if (!savedUser) {
+      return null;
     }
-  }
 
-  const token = localStorage.getItem("token");
+    try {
+      return JSON.parse(savedUser) as AuthUser;
+    } catch {
+      localStorage.removeItem(
+        USER_STORAGE_KEY
+      );
 
-  if (token?.includes("admin")) {
-    return { username: "admin", isAdmin: true, studentNumber: "23" };
-  }
+      return null;
+    }
+  };
 
-  if (token?.includes("user")) {
-    return { username: "user", isAdmin: false, studentNumber: "22" };
-  }
-
-  return null;
-};
-
+// 로그아웃
 export const logout = () => {
-  localStorage.removeItem("token");
-  localStorage.removeItem(USER_STORAGE_KEY);
+  localStorage.removeItem(
+    TOKEN_STORAGE_KEY
+  );
+
+  localStorage.removeItem(
+    USER_STORAGE_KEY
+  );
+
   window.location.href = "/";
 };
