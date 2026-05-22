@@ -3,9 +3,11 @@ import Container from "../components/ui/Container";
 import Card from "../components/ui/Card";
 import { useExamArchives } from "../features/exam-archive/hooks/useExamArchives";
 import RotatingBackgroundBanner from "../components/RotatingBackgroundBanner";
-import khuBg from "../assets/khu-bg.png";
+import khuBg from "../assets/khu-bg-1.png";
+import khuBg2 from "../assets/khu-bg-2.jpg"
+import khuBg3 from "../assets/khu-bg-3.jpg"
 
-const homeBackgroundImages = [khuBg];
+const homeBackgroundImages = [khuBg, khuBg2, khuBg3];
 
 const Home = () => {
     const navigate = useNavigate();
