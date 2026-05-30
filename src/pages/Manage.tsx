@@ -1,11 +1,5 @@
 import Container from "../components/ui/Container";
-import { IoCheckmarkOutline } from "react-icons/io5";
-import { IoPeopleOutline } from "react-icons/io5";
-import { IoNotificationsOutline } from "react-icons/io5";
-import { IoChatbubbleOutline } from "react-icons/io5";
-import { IoPencilOutline } from "react-icons/io5";
-import { IoImageOutline } from "react-icons/io5";
-import { IoChevronForward } from "react-icons/io5";
+import { IoCheckmarkOutline, IoPeopleOutline, IoNotificationsOutline, IoChatbubbleOutline, IoPencilOutline, IoImageOutline, IoChevronForward } from "react-icons/io5";
 import { useUsers } from "../features/manage/hooks/useUsers";
 import Loading from "../components/Loading";
 import { Button } from "../components/ui/Button";
