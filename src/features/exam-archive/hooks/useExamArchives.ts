@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { getExamArchives } from "../exam-archive.api";
-import { type ExamArchiveType } from "../exam-archive.type";
+import type { ExamArchiveListType } from "../exam-archive.type";
 
 export const useExamArchives = () => {
-    const [data, setData] = useState<ExamArchiveType[]>([]);
+    const [data, setData] = useState<ExamArchiveListType[]>([]);
 
     useEffect(() => {
         getExamArchives().then(setData);

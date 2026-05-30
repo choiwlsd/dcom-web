@@ -1,7 +1,12 @@
-import { exam_mock } from "./exam-archive.mock";
+import { exam_mock, exam_archives_mock } from "./exam-archive.mock";
 
 // 전체 게시글 조회
 export const getExamArchives = async () => {
+    // 실제 API 호출이 필요한 경우 여기에 구현
+    return Promise.resolve(exam_archives_mock);
+};
+
+export const getExam = async () => {
     // 실제 API 호출이 필요한 경우 여기에 구현
     return Promise.resolve(exam_mock);
 };

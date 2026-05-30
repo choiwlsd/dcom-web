@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import backImg from "../assets/icon/back.png";
 import { useExamArchive } from "../features/exam-archive/hooks/useExamArchives-detail";
+import Loading from "../components/Loading";
 
 const ExamArchiveDetail = () => {
     const navigate = useNavigate();
@@ -8,7 +9,7 @@ const ExamArchiveDetail = () => {
     const { data } = useExamArchive(Number(id));
 
     if (!data) {
-        return <div>Loading ...</div>;
+        return <Loading />;
     }
 
     return (
@@ -21,13 +22,13 @@ const ExamArchiveDetail = () => {
                 onClick={() => navigate(-1)} 
                 className="cursor-pointer size-4 mb-4" 
             />
-            <h1 className="text-2xl font-bold mb-4">{data.title}</h1>
+            <h1 className="text-2xl font-bold mb-4">{data.subject}</h1>
         </div>
 
             <p>{data.description}</p>
 
             <div className="mt-4 text-sm text-gray-500">
-                <p>과목: {data.subjectName}</p>
+                <p>과목: {data.subject}</p>
                 <p>교수: {data.professor}</p>
                 <p>작성자: {data.author}</p>
                 <p>날짜: {data.date}</p>
