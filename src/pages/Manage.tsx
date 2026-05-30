@@ -1,6 +1,11 @@
 import Container from "../components/ui/Container";
 import { IoCheckmarkOutline } from "react-icons/io5";
 import { IoPeopleOutline } from "react-icons/io5";
+import { IoNotificationsOutline } from "react-icons/io5";
+import { IoChatbubbleOutline } from "react-icons/io5";
+import { IoPencilOutline } from "react-icons/io5";
+import { IoImageOutline } from "react-icons/io5";
+import { IoChevronForward } from "react-icons/io5";
 import { useUsers } from "../features/manage/hooks/useUsers";
 import Loading from "../components/Loading";
 import { Button } from "../components/ui/Button";
@@ -14,7 +19,7 @@ const Manage = () => {
     <div className="px-4 py-8 sm:px-6 lg:px-20">      
       <div className="flex flex-col lg:flex-row gap-6 bg-[#F8F9FC] p-10 rounded-2xl border border-[#E0E0E0]">
         {/* 왼쪽 */}
-        <div className="flex-1 flex flex-col gap-6">
+        <div className="flex-1 flex flex-col gap-4 justify-between">
 
           <div className="grid grid-cols-2 gap-4">
             
@@ -42,7 +47,7 @@ const Manage = () => {
             variant="secondary"
           >
             {users?.slice(0, 4).map(user => (
-                <div key={user.id} className="flex items-center justify-between py-2 border-b">
+                <div key={user.id} className="flex items-center justify-between py-2 border-b text-sm">
                   <div className="flex flex-col gap-1">
                     <p className="font-medium">{user.name} ({user.studentNumber})</p>
                     <p className="text-sm text-gray-400">신청일 | </p>
@@ -62,14 +67,40 @@ const Manage = () => {
         </div>
 
         {/* 오른쪽 */}
-        <div className="flex-1 flex flex-col gap-6">
+        <div className="flex-1 flex flex-col gap-4 justify-between">
             
             <Container 
               title="게시글 관리" 
               variant="secondary"
               showViewAll={false}
             >
-              <p>이곳은 관리 섹션입니다.</p>
+              <div className="grid grid-cols-2 gap-4">
+                <PostManageCard
+                  icon={<IoNotificationsOutline className="w-6 h-6 text-gray-400" />}
+                  title="공지사항"
+                  description="게시글 23개"
+                  onClick={() => {}}
+                />
+                <PostManageCard
+                  icon={<IoChatbubbleOutline className="w-6 h-6 text-gray-400" />}
+                  title="정보 공유"
+                  description="게시글 15개"
+                  onClick={() => {}}
+                />
+                <PostManageCard
+                  icon={<IoPencilOutline className="w-6 h-6 text-gray-400" />}
+                  title="족보"
+                  description="게시글 42개"
+                  onClick={() => {}}
+                />
+                <PostManageCard
+                  icon={<IoImageOutline className="w-6 h-6 text-gray-400" />}
+                  title="활동사진"
+                  description="게시글 15개"
+                  onClick={() => {}}
+                />
+              </div>
+              
             </Container>
             <Container 
               title="회원 관리" 
@@ -94,10 +125,10 @@ const Manage = () => {
                 </thead>
 
                 <tbody>
-                  {users?.slice(0, 5).map(user => (
+                  {users?.slice(0, 3).map(user => (
                     <tr
                       key={user.id}
-                      className="border-b hover:bg-gray-50 text-center"
+                      className="border-b hover:bg-gray-50 text-sm text-center"
                     >
                       <td className="px-4 py-3">{user.name}</td>
                       <td className="px-4 py-3 text-gray-500">
@@ -126,3 +157,42 @@ const Manage = () => {
 };
 
 export default Manage;
+
+function PostManageCard({
+  icon,
+  title,
+  description,
+  onClick,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+  onClick: () => void;
+}) {
+  return (
+    <div
+      onClick={onClick}
+      className="
+        p-4
+        rounded-2xl
+        bg-[#F8F9FC]
+        hover:shadow-md
+        hover:bg-[#E6E6FA]
+        transition-all
+        duration-300
+        text-[#0F2854]
+        cursor-pointer
+        whitespace-nowrap
+        flex items-center
+      "
+    >
+      {icon}
+      <div className="flex flex-col gap-1 ml-3">
+        <p className="text-sm font-bold">{title}</p>
+        <p className="text-[10px] text-gray-400">{description}</p>
+      </div>
+
+      <IoChevronForward className="ml-auto w-6 h-6 text-gray-400" />
+    </div>
+  );
+}
