@@ -1,6 +1,6 @@
 import type { ButtonHTMLAttributes } from "react";
 
-type Variant = "primary" | "secondary" | "danger";
+type Variant = "primary" | "secondary" | "third" | "refusal";
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: Variant;
@@ -11,9 +11,14 @@ const baseStyle =
   "py-2 rounded-xl transition-colors font-medium";
 
 const variants: Record<Variant, string> = {
+  // 남색 배경에 흰색 텍스트, 호버 시 밝은 파란색 배경
   primary: "bg-[#0F2854] text-white hover:bg-[#a1c4ff]",
+  // 흰색 배경에 남색 텍스트 + 테두리, 호버 시 연한 회색 배경
   secondary: "bg-white text-[#0F2854] border border-[#0F2854] hover:bg-gray-300",
-  danger: "bg-red-500 text-white hover:bg-red-600",
+  // 흰색 배경에 하늘색 텍스트 + 테두리, 호버 시 연한 하늘색 배경
+  third: "bg-blue-500 text-white border border-blue-500 hover:bg-blue-600",
+  // 흰색 배경에 회색 텍스트 + 테두리, 호버 시 더 연한 회색 배경
+  refusal: "bg-gray-500 text-white border border-gray-500 hover:bg-gray-600",
 };
 
 export function Button({
