@@ -7,6 +7,7 @@ import { Button } from "../components/ui/Button";
 
 const ExamArchive = () => {
   const navigate = useNavigate();
+  // 전체 목록 게시글 조회
   const { data } = useExamArchives();
 
   return (
