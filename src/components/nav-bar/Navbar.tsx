@@ -24,7 +24,7 @@ export default function Navbar() {
   return (
     <>
       {currentUser && (
-        <div className="fixed right-8 top-4 z-[60]">
+        <div className="fixed right-8 top-5 z-[60]">
           <ProfileMenu user={currentUser} />
         </div>
       )}

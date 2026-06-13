@@ -35,7 +35,7 @@ const ProfileMenu = ({ user }: ProfileMenuProps) => {
         <UserDisplayName user={user} />
       <button
         type="button"
-        className="flex h-11 w-11 items-center justify-center rounded-full bg-black text-sm font-bold text-white shadow-lg transition hover:bg-gray-800"
+        className="flex h-10 w-10 items-center justify-center rounded-full bg-black text-sm font-bold text-white shadow-lg transition hover:bg-gray-800"
         onClick={() => setIsOpen((prev) => !prev)}
         aria-label="Open profile"
       >
