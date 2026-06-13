@@ -1,9 +1,14 @@
+export interface ExamArchiveAuthorType {
+    studentNumber: string;
+    userID: string;
+}
+
 export interface ExamArchiveType {
     id: number;
     subject: string;
     professor: string;
     semester: string;
-    author: string;
+    author: ExamArchiveAuthorType;
     date: string;
     description: string;
     files: string[];

@@ -9,9 +9,9 @@ type Props = {
 
 export default function UserDisplayName({ user }: Props) {
   return (
-    <span className="flex flex-row items-center text-sm">
-      <div className="bg-slate-200 font-bold text-xs shadow-sm p-1 m-1 w-6 h-6 flex items-center">
-        {user.studentNumber.slice(0, 2)}
+    <span className="flex flex-row items-center gap-1 text-sm">
+      <div className="flex h-6 items-center justify-center rounded bg-slate-200 px-1 text-xs font-bold shadow-sm">
+        {String(user.studentNumber).slice(2, 4)}
       </div>
       {user.userID}
     </span>

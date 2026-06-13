@@ -21,6 +21,13 @@ export default function useAuth() {
 
   useEffect(() => {
     syncAuth();
+    window.addEventListener("auth:user-updated", syncAuth);
+    window.addEventListener("storage", syncAuth);
+
+    return () => {
+      window.removeEventListener("auth:user-updated", syncAuth);
+      window.removeEventListener("storage", syncAuth);
+    };
   }, []);
 
   function syncAuth() {

@@ -1,10 +1,10 @@
 // Navbar.tsx
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { getCurrentUser } from "../../features/auth";
 import DesktopNavbar from "./DesktopNavbar";
 import MobileNavbar from "./MobileNavbar";
 import ProfileMenu from "../ProfileMenu";
+import useAuth from "../../features/useAuth";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,7 +12,7 @@ export default function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const currentUser = getCurrentUser();
+  const { currentUser } = useAuth();
 
   const isAdmin =
     currentUser?.role === "ADMIN";

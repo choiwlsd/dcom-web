@@ -5,6 +5,7 @@ import Loading from "../components/Loading";
 import { HiUpload } from "react-icons/hi";
 import { GoTrash } from "react-icons/go";
 import { Button } from "../components/ui/Button";
+import UserDisplayName from "../components/ui/UserDisplay";
 
 const ExamArchiveDetail = () => {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ const ExamArchiveDetail = () => {
       <button
         type="button"
         onClick={() => navigate("/exam-archive")}
-        className="mb-3 flex items-center gap-2 text-sm text-gray-600 hover:text-gray-400"
+        className="mb-4 flex items-center gap-2 text-sm text-gray-600 hover:text-gray-400"
       >
         <img src={backImg} alt="" className="size-3" />
         족보 아카이브로 돌아가기
@@ -53,9 +54,10 @@ const ExamArchiveDetail = () => {
               className="relative min-h-[220px] border-b border-gray-200 px-7 py-7 last:border-b-0"
             >
               <div className="mb-8 flex items-start justify-between gap-4">
-                <p className="text-sm font-medium text-gray-900">
-                  {post.semester} {post.author}
-                </p>
+                <div className="flex flex-wrap items-center gap-3 text-gray-900">
+                  <UserDisplayName user={post.author} /> |
+                  <span className="text-sm font-medium">{post.semester}</span>
+                </div>
                 <time className="shrink-0 text-sm text-gray-500">
                   {post.date.replaceAll("-", ".")}
                 </time>

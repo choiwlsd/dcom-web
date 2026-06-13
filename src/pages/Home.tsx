@@ -38,7 +38,7 @@ const Home = () => {
                               className="flex py-1 text-sm hover:font-bold cursor-pointer items-center justify-between"
                               onClick={() => navigate(`/exam-archive/${item.id}`)}
                             >
-                                <p>{item.subject} | {item.professor} - {item.author}</p>
+                                <p>{item.subject} | {item.professor} - {item.author.userID}</p>
                                 <p className="text-gray-400 text-xs">{item.date}</p>
                             </div>
                         ))}

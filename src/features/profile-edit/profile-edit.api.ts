@@ -13,6 +13,7 @@ const getLocalUsers = (): User[] =>
 const saveCurrentUser = (user: User) => {
   const { password, ...authUser } = user;
   localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(authUser));
+  window.dispatchEvent(new Event("auth:user-updated"));
 };
 
 const findFullUser = (authUser: AuthUser | null): User | undefined => {
