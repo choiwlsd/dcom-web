@@ -1,12 +1,12 @@
 type InputProps = React.InputHTMLAttributes<HTMLInputElement>;
 
 export default function Input({
-  className = "w-full px-5 py-2 border rounded-xl",
+  className = "",
   ...props
 }: InputProps) {
   return (
     <input
-      className={`w-full px-5 py-2 border rounded-xl ${className}`}
+      className={`w-full px-3 py-2 border rounded-xl text-xs text-gray-500 placeholder:text-gray-200 ${className}`}
       {...props}
     />
   );
