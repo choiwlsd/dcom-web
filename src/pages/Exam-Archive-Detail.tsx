@@ -32,7 +32,7 @@ const ExamArchiveDetail = () => {
 
         <Button
           variant="third"
-          className="flex w-[160px] items-center justify-center gap-2 text-sm"
+          className="flex w-[120px] items-center justify-center gap-2 text-sm"
         >
           <HiUpload />
           UPLOAD
