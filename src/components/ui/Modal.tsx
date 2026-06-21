@@ -1,0 +1,64 @@
+import type { ReactNode } from "react";
+import dcomLogo from "../../assets/dcom-logo-black.png";
+
+type ModalProps = {
+  isOpen: boolean;
+  badge?: string;
+  title: string;
+  description: ReactNode;
+  actionLabel?: string;
+  onAction?: () => void;
+  labelledById?: string;
+};
+
+export default function Modal({
+  isOpen,
+  badge,
+  title,
+  description,
+  actionLabel,
+  onAction,
+  labelledById = "modal-title",
+}: ModalProps) {
+  if (!isOpen) return null;
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-8"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby={labelledById}
+    >
+      <div className="w-full max-w-sm rounded-[28px] bg-white px-9 py-10 text-center shadow-xl">
+        <img
+          src={dcomLogo}
+          alt="DCOM"
+          className="mx-auto mb-3 h-20 w-auto object-contain"
+        />
+
+        <span className="mb-7 inline-flex rounded-full bg-blue-500 px-4 py-2 text-xs font-semibold text-white">
+          {badge}
+        </span>
+
+        <h3
+          id={labelledById}
+          className="mb-4 text-sm font-bold text-gray-900"
+        >
+          {title}
+        </h3>
+
+        <div className="mb-9 text-xs leading-5 text-gray-700">
+          {description}
+        </div>
+
+        <button
+          type="button"
+          className="text-xs font-medium text-blue-600 underline underline-offset-2"
+          onClick={onAction}
+        >
+          {actionLabel}
+        </button>
+      </div>
+    </div>
+  );
+}
