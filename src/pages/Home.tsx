@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import Container from "../components/ui/Container";
 import { useExam } from "../features/exam-archive/hooks/useExam";
+import { useGallery } from "../features/gallery/hooks/useGallery";
 import RotatingBackgroundBanner from "../components/RotatingBackgroundBanner";
 import { IoNotificationsOutline, IoChatbubbleOutline, IoPencilOutline, IoImageOutline } from "react-icons/io5";
 import khuBg from "../assets/khu-bg-1.png";
@@ -12,7 +13,9 @@ const homeBackgroundImages = [khuBg, khuBg2, khuBg3];
 const Home = () => {
     const navigate = useNavigate();
     // 족보 게시글 조회
-    const { data } = useExam();
+    const { data: exam } = useExam();
+    // 최근 활동 사진 조회
+    const { data: galleryPost } = useGallery();
 
     return (
         <>
@@ -32,7 +35,7 @@ const Home = () => {
                     </Container>       
                     
                     <Container title="최근 등록 족보" icon={IoPencilOutline} onViewAllClick={() => navigate("/exam-archive")}>
-                        {data?.slice(0, 5).map(item => (
+                        {exam?.slice(0, 5).map(item => (
                             <div
                                 key={item.id}
                                 className="flex py-1 text-sm hover:font-bold cursor-pointer items-center justify-between overflow-hidden"
@@ -67,7 +70,18 @@ const Home = () => {
                     </Container>
                     <div className="sm:col-span-2 lg:col-span-3">
                         <Container title="최근 활동 사진" icon={IoImageOutline} onViewAllClick={() => navigate("/gallery")}>
-                            <p>추가 컨텐츠</p>
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                {galleryPost.slice(0,4).map((item) => (
+                                    <img 
+                                        key={item.id}
+                                        src={item.imageUrl} 
+                                        alt={item.title} 
+                                        className="w-full h-40 object-cover rounded-lg cursor-pointer hover:opacity-80 transition"
+                                        onClick={() => navigate(`gallery/${item.id}`)}
+                                    />
+                                ))}
+                            </div>
+                            
                         </Container>
                     </div>
                 </div>
