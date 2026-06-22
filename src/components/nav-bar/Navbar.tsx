@@ -1,6 +1,6 @@
 // Navbar.tsx
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import DesktopNavbar from "./DesktopNavbar";
 import MobileNavbar from "./MobileNavbar";
 import ProfileMenu from "../ProfileMenu";
@@ -10,7 +10,6 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   const navigate = useNavigate();
-  const location = useLocation();
 
   const { currentUser } = useAuth();
 
