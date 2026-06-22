@@ -23,7 +23,7 @@ const variants: Record<Variant, string> = {
 
 export function Button({
   variant = "primary",
-  fullWidth = true,
+  fullWidth = false,
   className = "",
   ...props
 }: ButtonProps) {

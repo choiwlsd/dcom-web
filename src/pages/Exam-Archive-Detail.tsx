@@ -27,7 +27,7 @@ const ExamArchiveDetail = () => {
         족보 아카이브로 돌아가기
       </button>
 
-      <div className="mb-8 flex items-center justify-between">
+      <div className="mb-8 flex items-center justify-between gap-4">
         <h1 className="text-2xl font-bold text-[#4988C4] whitespace-nowrap">족보</h1>
 
         <Button
