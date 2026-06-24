@@ -222,7 +222,7 @@ const Register = () => {
             <ErrorMessage message={errors.emailCode} />
           </div>
 
-          <div className="mb-10">
+          <div className="mb-7">
             <InputLabel>전화번호</InputLabel>
             <Input
               type="text"
@@ -233,7 +233,7 @@ const Register = () => {
             <ErrorMessage message={errors.phoneNumber} />
           </div>
 
-          <Button type="submit">회원가입</Button>
+          <Button type="submit" className="w-full text-sm">회원가입</Button>
         </form>
       </div>
 
