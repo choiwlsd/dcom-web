@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useExamArchives } from "../features/exam-archive/hooks/useExamArchives";
-import Input from "../components/ui/Input";
+import { useExamArchives } from "../../features/exam-archive/hooks/useExamArchives";
+import Input from "../../components/ui/Input";
 import { IoSearchOutline } from "react-icons/io5";
 import { HiUpload } from "react-icons/hi";
-import { Button } from "../components/ui/Button";
+import { Button } from "../../components/ui/Button";
 
 const SEARCH_LOADING_TIME = 250;
 

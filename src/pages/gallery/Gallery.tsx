@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { HiUpload } from "react-icons/hi";
 
-import Card from "../components/ui/Card";
-import { Button } from "../components/ui/Button";
-import useAuth from "../features/auth/hooks/useAuth";
-import { galleryPosts } from "../mocks/gallery.mock";
+import Card from "../../components/ui/Card";
+import { Button } from "../../components/ui/Button";
+import useAuth from "../../features/auth/hooks/useAuth";
+import { galleryPosts } from "../../mocks/gallery.mock";
 
 const Gallery = () => {
   const navigate = useNavigate();

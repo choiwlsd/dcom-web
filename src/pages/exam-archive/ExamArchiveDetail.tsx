@@ -1,11 +1,11 @@
 import { useNavigate, useParams } from "react-router-dom";
 import backImg from "../assets/icon/back.png";
-import { useExamArchive } from "../features/exam-archive/hooks/useExamArchiveDetail";
-import Loading from "../components/Loading";
+import { useExamArchive } from "../../features/exam-archive/hooks/useExamArchiveDetail";
+import Loading from "../../components/Loading";
 import { HiUpload } from "react-icons/hi";
 import { GoTrash } from "react-icons/go";
-import { Button } from "../components/ui/Button";
-import UserDisplayName from "../components/ui/UserDisplay";
+import { Button } from "../../components/ui/Button";
+import UserDisplayName from "../../components/ui/UserDisplay";
 
 const ExamArchiveDetail = () => {
   const navigate = useNavigate();

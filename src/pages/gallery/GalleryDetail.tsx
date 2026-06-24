@@ -9,13 +9,13 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-import Card from "../components/ui/Card";
-import Loading from "../components/Loading";
-import { Button } from "../components/ui/Button";
-import useAuth from "../features/auth/hooks/useAuth";
-import { useGalleryDetail } from "../features/gallery/hooks/useGalleryDetail";
-import { galleryComments } from "../mocks/gallery-comments.mock";
-import { type GalleryComment } from "../features/gallery/types/gallery-post.type";
+import Card from "../../components/ui/Card";
+import Loading from "../../components/Loading";
+import { Button } from "../../components/ui/Button";
+import useAuth from "../../features/auth/hooks/useAuth";
+import { useGalleryDetail } from "../../features/gallery/hooks/useGalleryDetail";
+import { galleryComments } from "../../mocks/gallery-comments.mock";
+import { type GalleryComment } from "../../features/gallery/types/gallery-post.type";
 import { AnimatePresence, motion } from "framer-motion";
 
 const GalleryDetail = () => {
