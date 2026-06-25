@@ -14,12 +14,14 @@ import Manage from "../pages/manage/Manage";
 import ManagePendingUsers from "../pages/manage/ManagePendingUsers";
 import ManageUsers from "../pages/manage/ManageUsers";
 import Profile from "../pages/Profile";
-import Notice from "../pages/Notice";
+import Notice from "../pages/notice/Notice";
 import Gallery from "../pages/gallery/Gallery";
 import GalleryDetail from "../pages/gallery/GalleryDetail";
 import GalleryUpload from "../pages/gallery/GalleryUpload";
 
 import ProtectedRoute from "../components/ProtectedRoute";
+import NoticeDetail from "../pages/notice/NoticeDetail";
+import NoticeUpload from "../pages/notice/NoticeUpload";
 
 
 export default function AppRouter() {
@@ -83,6 +85,16 @@ const protectedRoutes: AppRoute[] = [
   {
     path: "/notice",
     element: <Notice />,
+    protected: true,
+  },
+  {
+    path: "/notice/:id",
+    element: <NoticeDetail />,
+    protected: true,
+  },
+  {
+    path: "/notice/upload",
+    element: <NoticeUpload />,
     protected: true,
   },
   {
