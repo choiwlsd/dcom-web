@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
-import { HiOutlineTrash } from "react-icons/hi";
+import { HiChevronLeft, HiChevronRight, HiOutlineTrash } from "react-icons/hi";
+import { FiChevronLeft } from "react-icons/fi";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -97,10 +97,10 @@ const GalleryDetail = () => {
       <div className="px-4 py-8 sm:px-6 lg:px-20">
         <button
           type="button"
-          className="mb-4 text-sm text-gray-400 transition-colors hover:text-[#4988C4]"
+          className="flex items-center gap-1 mb-4 text-sm text-gray-400 transition-colors hover:text-[#4988C4]"
           onClick={() => navigate("/gallery")}
         >
-          &lt; 갤러리로 돌아가기
+          <FiChevronLeft /> 갤러리로 돌아가기
         </button>
         <p className="text-sm text-gray-500">활동 사진을 찾을 수 없습니다.</p>
       </div>

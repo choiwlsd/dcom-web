@@ -1,8 +1,8 @@
 import { useNavigate, useParams } from "react-router-dom";
-import backImg from "../../assets/icon/back.png";
 import { useExamArchive } from "../../features/exam-archive/hooks/useExamArchiveDetail";
 import Loading from "../../components/Loading";
 import { HiUpload } from "react-icons/hi";
+import { FiChevronLeft } from "react-icons/fi";
 import { GoTrash } from "react-icons/go";
 import { Button } from "../../components/ui/Button";
 import UserDisplayName from "../../components/ui/UserDisplay";
@@ -21,10 +21,9 @@ const ExamArchiveDetail = () => {
       <button
         type="button"
         onClick={() => navigate("/exam-archive")}
-        className="mb-4 flex items-center gap-2 text-sm text-gray-600 hover:text-gray-400"
+        className="flex items-center gap-1 mb-4 text-sm text-gray-400 transition-colors hover:text-[#4988C4]"
       >
-        <img src={backImg} alt="" className="size-3" />
-        족보 아카이브로 돌아가기
+        <FiChevronLeft /> 족보 아카이브로 돌아가기
       </button>
 
       <div className="mb-8 flex items-center justify-between gap-4">
