@@ -2,7 +2,7 @@ import Input from "../../components/ui/Input";
 import InputLabel from "../../components/ui/InputLabel";
 import { Button } from "../../components/ui/Button";
 import Modal from "../../components/ui/Modal";
-import dcomLogo from "../assets/dcom-logo-black.png";
+import dcomLogo from "../../assets/dcom-logo-black.png";
 import useRegisterForm from "../../features/auth/hooks/useRegisterForm";
 
 const ErrorMessage = ({ message }: { message?: string }) =>

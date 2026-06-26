@@ -3,8 +3,8 @@
 import { Routes, Route } from "react-router-dom";
 import AppLayout from "./app-layout";
 
-import Login from "../pages/Login";
-import Register from "../pages/Register";
+import Login from "../pages/auth/Login";
+import Register from "../pages/auth/Register";
 import Home from "../pages/Home";
 import ExamArchive from "../pages/exam-archive/ExamArchive";
 import ExamArchiveDetail from "../pages/exam-archive/ExamArchiveDetail";
@@ -22,7 +22,7 @@ import GalleryUpload from "../pages/gallery/GalleryUpload";
 import ProtectedRoute from "../components/ProtectedRoute";
 import NoticeDetail from "../pages/notice/NoticeDetail";
 import NoticeUpload from "../pages/notice/NoticeUpload";
-import ForgetPassword from "../pages/ForgetPassword";
+import ForgetPassword from "../pages/auth/ForgetPassword";
 
 
 export default function AppRouter() {

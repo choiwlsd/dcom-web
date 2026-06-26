@@ -1,17 +1,19 @@
-import { useState } from "react";
-import type { FormEvent } from "react";
+import { useState, type FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
+
 import {
   isPasswordResetRequired,
   login,
   type LoginResult,
 } from "../../features/auth/utils/auth.utils";
-import { useNavigate } from "react-router-dom";
-import Infoicon from "../assets/icon/info.png";
 import Input from "../../components/ui/Input";
 import InputLabel from "../../components/ui/InputLabel";
 import { Button } from "../../components/ui/Button";
-import dcomLogo from "../assets/dcom-logo-black.png";
+import Infoicon from "../../assets/icon/info.png";
+import dcomLogo from "../../assets/dcom-logo-black.png";
+
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
+
 
 const loginMessages: Record<
   Exclude<LoginResult, { success: true }>["reason"],
