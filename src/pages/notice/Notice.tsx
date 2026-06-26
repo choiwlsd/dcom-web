@@ -12,15 +12,14 @@ import { useNotices } from "../../features/notice/hooks/useNotices";
 import type { NoticeType } from "../../features/notice/types/notice.type";
 
 const NOTICE_TEXT = {
-  pageTitle: "\uACF5\uC9C0\uC0AC\uD56D",
-  description:
-    "D.COM \uB0B4\uC758 \uACF5\uC9C0\uC0AC\uD56D\uC744 \uD655\uC778\uD574\uBCF4\uC138\uC694.",
-  number: "\uBC88\uD638",
-  title: "\uC81C\uBAA9",
-  author: "\uC791\uC131\uC790",
-  date: "\uC791\uC131\uC77C",
-  empty: "\uB4F1\uB85D\uB41C \uACF5\uC9C0\uC0AC\uD56D\uC774 \uC5C6\uC2B5\uB2C8\uB2E4.",
-  searchPlaceholder: "\uAC80\uC0C9\uC5B4\uB97C \uC785\uB825\uD558\uC138\uC694",
+  pageTitle: "공지사항",
+  description: "D.COM 내의 공지사항을 확인해보세요.",
+  number: "번호",
+  title: "제목",
+  author: "작성자",
+  date: "작성일",
+  empty: "등록된 공지사항이 없습니다.",
+  searchPlaceholder: "검색어를 입력하세요",
 };
 
 const Notice = () => {
