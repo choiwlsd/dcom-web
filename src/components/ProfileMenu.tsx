@@ -43,7 +43,7 @@ const ProfileMenu = ({ user }: ProfileMenuProps) => {
 
       {/* dropdown */}
       {isOpen && (
-        <div className="absolute right-0 top-full mt-3 w-64 rounded-xl border border-gray-200 bg-white shadow-lg z-50 overflow-hidden">
+        <div className="absolute right-0 top-full z-20 mt-3 w-64 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg">
           
           {/* header */}
           <div className="px-4 py-5">

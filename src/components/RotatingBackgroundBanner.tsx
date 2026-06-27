@@ -28,7 +28,7 @@ export default function RotatingBackgroundBanner({
 
   return (
     <section
-      className={`relative h-[270px] w-full overflow-hidden md:h-[450px] ${className}`}
+      className={`relative isolate h-[270px] w-full overflow-hidden md:h-[450px] ${className}`}
     >
       <AnimatePresence>
         <motion.img
