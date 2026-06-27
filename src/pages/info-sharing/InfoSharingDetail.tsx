@@ -1,22 +1,24 @@
 import { useNavigate, useParams } from "react-router-dom";
 
-import Loading from "../../components/Loading";
-import { useInfoDetail } from "../../features/info-sharing/hooks/useInfoDetail";
-
 import { FiChevronLeft } from "react-icons/fi";
 import { GoTrash } from "react-icons/go";
+
+import { useInfoDetail } from "../../features/info-sharing/hooks/useInfoDetail";
+import Loading from "../../components/Loading";
+import CommentSection from "../../features/comment/components/CommentSection";
 import UserDisplayName from "../../components/ui/UserDisplay";
 
 
 const InfoSharingDetail = () => {
+    const navigate = useNavigate();
     const { id } = useParams();
     const { data: info } = useInfoDetail(Number(id));
-    const navigate = useNavigate();
+
 
     if (!info) {
-        console.log('[InfoSharingDetail.tsx] 데이터가 없습니다.')
+        console.log('[InfoSharingDetail.tsx] info 데이터가 없습니다.')
         return <Loading />
-    }  
+    }   
     
     return(
         <div className="px-4 py-8 sm:px-6 lg:px-20">
@@ -80,6 +82,8 @@ const InfoSharingDetail = () => {
                     
                 </div>
             </section>
+
+            <CommentSection postId={Number(id)} target="info-sharing" />
         </div>
     );
 }
