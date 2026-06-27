@@ -3,7 +3,10 @@ import type {
   NoticeDetailType,
 } from "../features/notice/types/notice.type";
 
-const ADMIN = "관리자";
+const ADMIN = {
+  name: "관리자",
+  studentNumber: '20239999',
+};
 
 export const notice_mock: NoticeType[] = [
   {

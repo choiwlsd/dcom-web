@@ -5,6 +5,7 @@ import Underline from "@tiptap/extension-underline";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { IoAdd, IoAttach, IoClose } from "react-icons/io5";
+import { FiChevronLeft } from "react-icons/fi";
 
 import { uploadPosts } from "../../features/upload/api/upload.api";
 import type {
@@ -12,6 +13,7 @@ import type {
   UploadPostDraft,
 } from "../../features/upload/types/upload.type";
 import { Button } from "../ui/Button";
+import Modal from "../ui/Modal";
 
 
 const baseNoticeConfig = {
@@ -23,8 +25,16 @@ const baseNoticeConfig = {
   allowMultiplePosts: false,
 } as const;
 
+type ModeConfig = {
+  requireTitle: boolean;
+  requireDescription: boolean;
+  requireImage: boolean;
+  showExamFields: boolean;
+  showGalleryFields: boolean;
+  allowMultiplePosts: boolean;
+};
 
-const modeConfig: Record<UploadMode, any> = {
+const modeConfig: Record<UploadMode, ModeConfig> = {
   exam: {
     requireTitle: false,
     requireDescription: true,
@@ -51,6 +61,10 @@ type UploadFormProps = {
   title: string;
   initialSubject?: string;
   initialProfessor?: string;
+  initialPost?: Partial<UploadPostDraft>;
+  submitLabel?: string;
+  onSubmit?: (post: UploadPostDraft) => Promise<void>;
+  onCancel?: () => void;
 };
 
 type UploadEntry = UploadPostDraft & {
@@ -64,6 +78,7 @@ const createEntry = (
   id: number,
   initialSubject = "",
   initialProfessor = "",
+  initialPost?: Partial<UploadPostDraft>,
 ): UploadEntry => ({
   id,
   subject: initialSubject,
@@ -75,21 +90,62 @@ const createEntry = (
   location: "",
   descriptionHtml: "",
   files: [],
+  existingFiles: [],
+  ...initialPost,
 });
+
+const getEntriesSignature = (entries: UploadEntry[]) =>
+  JSON.stringify(
+    entries.map(({ files, ...entry }) => ({
+      ...entry,
+      files: files.map(({ name, size, lastModified, type }) => ({
+        name,
+        size,
+        lastModified,
+        type,
+      })),
+    })),
+  );
 
 export default function UploadForm({
   mode,
   title,
   initialSubject = "",
   initialProfessor = "",
+  initialPost,
+  submitLabel = "업로드",
+  onSubmit,
+  onCancel,
 }: UploadFormProps) {
   const nextIdRef = useRef(2);
-  const [entries, setEntries] = useState<UploadEntry[]>([
-    createEntry(1, initialSubject, initialProfessor),
+  const [initialEntries] = useState<UploadEntry[]>(() => [
+    createEntry(1, initialSubject, initialProfessor, initialPost),
   ]);
+  const [entries, setEntries] = useState<UploadEntry[]>(
+    () => initialEntries,
+  );
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
 
   const config = modeConfig[mode];
+  const canAddMultiplePosts = config.allowMultiplePosts && !onSubmit;
+  const isDirty =
+    getEntriesSignature(entries) !==
+    getEntriesSignature(initialEntries);
+
+  const requestCancel = () => {
+    if (onCancel && isDirty) {
+      setIsCancelModalOpen(true);
+      return;
+    }
+
+    if (onCancel) {
+      onCancel();
+      return;
+    }
+
+    window.history.back();
+  };
 
   const updateEntry = (id: number, patch: Partial<UploadPostDraft>) => {
     setEntries((currentEntries) =>
@@ -111,7 +167,7 @@ export default function UploadForm({
 
   const removeEntry = (id: number) => {
     if (entries.length === 1) {
-      window.history.back();
+      requestCancel();
       return;
     }
 
@@ -147,7 +203,10 @@ export default function UploadForm({
 
       if (
         config.requireImage &&
-        entries.some((entry) => entry.files.length === 0)
+        entries.some(
+          (entry) =>
+            entry.files.length === 0 && entry.existingFiles.length === 0,
+        )
       ) {
         window.alert("사진을 최소 1개 이상 첨부해주세요.");
         return;
@@ -156,17 +215,30 @@ export default function UploadForm({
       setIsSubmitting(true);
 
       try {
-        await uploadPosts({
-          mode,
-          posts: entries.map(({ id: _id, ...entry }) => entry),
+        const posts = entries.map((entry) => {
+          const { id, ...post } = entry;
+          void id;
+          return post;
         });
 
-        window.alert(`${entries.length}개의 글을 업로드했습니다.`);
+        if (onSubmit) {
+          await onSubmit(posts[0]);
+        } else {
+          await uploadPosts({ mode, posts });
+        }
+
+        window.alert(
+          onSubmit
+            ? "게시글을 수정했습니다."
+            : `${entries.length}개의 글을 업로드했습니다.`,
+        );
       } catch (error) {
         console.error("업로드 실패:", error);
 
         window.alert(
-          "아직 서버 API가 연결되지 않았습니다. 콘솔에서 전송 형태를 확인해주세요.",
+          onSubmit
+            ? "게시글 수정에 실패했습니다."
+            : "아직 서버 API가 연결되지 않았습니다. 콘솔에서 전송 형태를 확인해주세요.",
         );
       } finally {
         setIsSubmitting(false);
@@ -175,6 +247,16 @@ export default function UploadForm({
 
   return (
     <section className="mx-auto w-full max-w-[1100px] px-4 py-8 sm:px-6 lg:px-8">
+      {onCancel && (
+        <button
+          type="button"
+          className="mb-4 flex items-center gap-1 text-sm text-gray-400 transition-colors hover:text-[#4988C4]"
+          onClick={requestCancel}
+        >
+          <FiChevronLeft /> 이전 페이지로 돌아가기
+        </button>
+      )}
+
       <h1 className="mb-9 text-center text-2xl font-bold text-[#4988C4]">
         {title}
       </h1>
@@ -195,7 +277,7 @@ export default function UploadForm({
         </div>
 
         <div className="mt-5 flex items-center gap-4">
-          {config.allowMultiplePosts && (
+          {canAddMultiplePosts && (
             <button
               type="button"
               aria-label="업로드 항목 추가"
@@ -212,13 +294,28 @@ export default function UploadForm({
             fullWidth={false}
             disabled={isSubmitting}
             className={`h-9 min-w-[74px] rounded-full bg-[#4B7FF3] px-5 py-0 text-xs hover:bg-[#3767D7] disabled:cursor-not-allowed disabled:opacity-60 ${
-              !config.allowMultiplePosts ? "ml-auto" : ""
+              !canAddMultiplePosts ? "ml-auto" : ""
             }`}
           >
-            {isSubmitting ? "전송 중" : "업로드"}
+            {isSubmitting ? "전송 중" : submitLabel}
           </Button>
         </div>
       </form>
+
+      <Modal
+        isOpen={isCancelModalOpen}
+        badge="수정 취소"
+        title="변경사항이 저장되지 않았습니다."
+        description="수정을 취소하시겠습니까?"
+        actionLabel="예"
+        onAction={() => {
+          setIsCancelModalOpen(false);
+          onCancel?.();
+        }}
+        secondaryActionLabel="아니오"
+        onSecondaryAction={() => setIsCancelModalOpen(false)}
+        labelledById="edit-cancel-modal-title"
+      />
     </section>
   );
 }
@@ -277,6 +374,14 @@ function UploadEntryCard({
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
+  };
+
+  const removeExistingFile = (fileToRemove: string) => {
+    onChange({
+      existingFiles: entry.existingFiles.filter(
+        (file) => file !== fileToRemove,
+      ),
+    });
   };
 
   const setLink = () => {
@@ -415,7 +520,29 @@ function UploadEntryCard({
         </ul>
       )}
 
-      {config.requireImage && entry.files.length === 0 && (
+      {entry.existingFiles.length > 0 && (
+        <ul className="mb-4 space-y-2">
+          {entry.existingFiles.map((file) => (
+            <li key={file} className="flex w-fit items-center gap-1 text-xs">
+              <span className="text-[#4988C4] underline underline-offset-2">
+                {file.split("/").pop() ?? file}
+              </span>
+              <button
+                type="button"
+                aria-label={`${file} 삭제`}
+                className="flex size-4 items-center justify-center rounded-full text-gray-300 transition-colors hover:bg-gray-100 hover:text-gray-500"
+                onClick={() => removeExistingFile(file)}
+              >
+                <IoClose size={12} />
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {config.requireImage &&
+        entry.files.length === 0 &&
+        entry.existingFiles.length === 0 && (
         <p className="mb-4 text-xs text-red-400">
           사진을 최소 1개 이상 첨부해주세요.
         </p>
