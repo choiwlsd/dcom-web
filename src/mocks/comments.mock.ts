@@ -1,6 +1,6 @@
 import { type Comment } from "../features/comment/types/comment.type";
 
-export const Comments: Comment[] = [
+export const GalleryComments: Comment[] = [
   {
     id: 1,
     postId: 1,
@@ -150,5 +150,158 @@ export const Comments: Comment[] = [
     },
     content: "전체적으로 매우 만족스러운 행사였습니다.",
     createdAt: "2026.04.28",
+  },
+];
+
+export const InfoComments: Comment[] = [
+  {
+    id: 1,
+    postId: 1,
+    author: {
+      studentNumber: "2022101001",
+      name: "카리나",
+    },
+    content: "좋은 정보 감사합니다!",
+    createdAt: "2026.05.21",
+  },
+  {
+    id: 2,
+    postId: 1,
+    author: {
+      studentNumber: "2022101002",
+      name: "윈터",
+    },
+    content: "덕분에 신청 기간 놓치지 않았어요.",
+    createdAt: "2026.05.21",
+  },
+  {
+    id: 3,
+    postId: 2,
+    author: {
+      studentNumber: "2022101003",
+      name: "장원영",
+    },
+    content: "공유해주셔서 감사합니다.",
+    createdAt: "2026.05.18",
+  },
+  {
+    id: 4,
+    postId: 2,
+    author: {
+      studentNumber: "2022101004",
+      name: "안유진",
+    },
+    content: "정리도 깔끔해서 보기 편했어요.",
+    createdAt: "2026.05.18",
+  },
+  {
+    id: 5,
+    postId: 3,
+    author: {
+      studentNumber: "2022101005",
+      name: "아이유",
+    },
+    content: "혹시 관련 링크도 있을까요?",
+    createdAt: "2026.05.12",
+  },
+  {
+    id: 6,
+    postId: 3,
+    author: {
+      studentNumber: "2022101006",
+      name: "지효",
+    },
+    content: "유용한 정보네요. 감사합니다!",
+    createdAt: "2026.05.12",
+  },
+  {
+    id: 7,
+    postId: 4,
+    author: {
+      studentNumber: "2022101007",
+      name: "사나",
+    },
+    content: "관심 있던 내용이었는데 도움이 됐습니다.",
+    createdAt: "2026.04.30",
+  },
+  {
+    id: 8,
+    postId: 4,
+    author: {
+      studentNumber: "2022101008",
+      name: "닝닝",
+    },
+    content: "친구들에게도 공유했어요!",
+    createdAt: "2026.04.30",
+  },
+  {
+    id: 9,
+    postId: 5,
+    author: {
+      studentNumber: "2022101009",
+      name: "해린",
+    },
+    content: "이런 게시글 자주 올라오면 좋겠네요.",
+    createdAt: "2026.04.15",
+  },
+  {
+    id: 10,
+    postId: 5,
+    author: {
+      studentNumber: "2022101010",
+      name: "하니",
+    },
+    content: "좋은 정보 감사합니다. 도움이 많이 됐어요.",
+    createdAt: "2026.04.15",
+  },
+  {
+    id: 11,
+    postId: 6,
+    author: {
+      studentNumber: "2022101011",
+      name: "민지",
+    },
+    content: "궁금했던 내용이 해결됐습니다.",
+    createdAt: "2026.03.28",
+  },
+  {
+    id: 12,
+    postId: 6,
+    author: {
+      studentNumber: "2022101012",
+      name: "다니엘",
+    },
+    content: "추가 정보가 있으면 알려주세요.",
+    createdAt: "2026.03.28",
+  },
+  {
+    id: 13,
+    postId: 7,
+    author: {
+      studentNumber: "2022101013",
+      name: "태연",
+    },
+    content: "덕분에 많은 도움이 되었습니다.",
+    createdAt: "2026.03.10",
+  },
+  {
+    id: 14,
+    postId: 8,
+    author: {
+      studentNumber: "2022101014",
+      name: "로제",
+    },
+    content: "최신 정보로 업데이트해주셔서 감사합니다.",
+    createdAt: "2026.02.22",
+  },
+  {
+    id: 15,
+    postId: 8,
+    author: {
+      studentNumber: "2022101015",
+      name: "지수",
+    },
+    content: "다음에도 유익한 정보 기대하겠습니다.",
+    createdAt: "2026.02.22",
   },
 ];

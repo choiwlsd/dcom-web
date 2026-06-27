@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { HiChevronLeft, HiChevronRight, HiOutlineTrash } from "react-icons/hi";
+import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 import { FiChevronLeft } from "react-icons/fi";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -11,89 +11,15 @@ import "swiper/css/pagination";
 
 import Card from "../../components/ui/Card";
 import Loading from "../../components/Loading";
-import { Button } from "../../components/ui/Button";
-import useAuth from "../../features/auth/hooks/useAuth";
+import CommentSection from "../../features/comment/components/CommentSection";
 import { useGalleryDetail } from "../../features/gallery/hooks/useGalleryDetail";
-import { useComments } from "../../features/comment/hooks/useComments";
-import { AnimatePresence, motion } from "framer-motion";
-import UserDisplayName from "../../components/ui/UserDisplay";
 
 const GalleryDetail = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const postId = Number(id);
-  const { currentUser } = useAuth();
   const { data: gallery, loading } = useGalleryDetail(postId);
-  const { data: comments } = useComments(postId);
-
   const [activeIndex, setActiveIndex] = useState(0);
-  // 새 댓글 작성용 
-  const [comment, setComment] = useState(comments);
-  const [commentText, setCommentText] = useState("");
-  const [isCommenting, setIsCommenting] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  // comments가 변경 시 다시 렌더링
-  useEffect(() => {
-    setComment(comments);
-  }, [comments]);
-
-  const isAdmin = currentUser?.role === "ADMIN";
-  const prevRef = useRef<HTMLButtonElement | null>(null);
-  const nextRef = useRef<HTMLButtonElement | null>(null);
-
-  const handleCommentSubmit = async (
-    event?: FormEvent<HTMLFormElement>
-  ) => {
-    event?.preventDefault();
-
-    const content = commentText.trim();
-
-    if (!content || isSubmitting) {
-      return;
-    }
-
-    setIsSubmitting(true);
-
-    try {
-      // 서버 전송 시늉
-      await new Promise((resolve) => setTimeout(resolve, 1200));
-
-      setComment((currentComments) => [
-        ...currentComments,
-        {
-          id: Date.now(),
-          postId,
-          author: {
-            studentNumber: currentUser?.studentNumber ?? "",
-            name: currentUser?.name ?? "익명",
-          },
-          content,
-          createdAt: "방금 전",
-        },
-      ]);
-
-      setCommentText("");
-      setIsCommenting(false);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const handleDeleteComment = (commentId: number) => {
-    setComment((currentComments) =>
-      currentComments.filter((comment) => comment.id !== commentId),
-    );
-  };
-
-  const handleCommenting = () => {
-    setIsCommenting(true);
-  }
-
-  const handleCancleCommenting = () => {
-    setIsCommenting(false);
-  }
-
 
   if (loading) return <Loading />;
 
@@ -102,7 +28,7 @@ const GalleryDetail = () => {
       <div className="px-4 py-8 sm:px-6 lg:px-20">
         <button
           type="button"
-          className="flex items-center gap-1 mb-4 text-sm text-gray-400 transition-colors hover:text-[#4988C4]"
+          className="mb-4 flex items-center gap-1 text-sm text-gray-400 transition-colors hover:text-[#4988C4]"
           onClick={() => navigate("/gallery")}
         >
           <FiChevronLeft /> 갤러리로 돌아가기
@@ -132,19 +58,17 @@ const GalleryDetail = () => {
       >
         <div className="relative">
           <button
-            ref={prevRef}
             type="button"
             aria-label="이전 사진"
-            className="absolute left-3 top-1/2 z-10 -translate-y-1/2 p-2 text-white/80 transition-colors hover:text-white"
+            className="gallery-prev absolute left-3 top-1/2 z-10 -translate-y-1/2 p-2 text-white/80 transition-colors hover:text-white"
           >
             <HiChevronLeft size={36} />
           </button>
 
           <button
-            ref={nextRef}
             type="button"
             aria-label="다음 사진"
-            className="absolute right-3 top-1/2 z-10 -translate-y-1/2 p-2 text-white/80 transition-colors hover:text-white"
+            className="gallery-next absolute right-3 top-1/2 z-10 -translate-y-1/2 p-2 text-white/80 transition-colors hover:text-white"
           >
             <HiChevronRight size={36} />
           </button>
@@ -152,17 +76,8 @@ const GalleryDetail = () => {
           <Swiper
             modules={[Navigation, Pagination]}
             navigation={{
-              prevEl: prevRef.current,
-              nextEl: nextRef.current,
-            }}
-            onBeforeInit={(swiper) => {
-              if (
-                swiper.params.navigation &&
-                typeof swiper.params.navigation !== "boolean"
-              ) {
-                swiper.params.navigation.prevEl = prevRef.current;
-                swiper.params.navigation.nextEl = nextRef.current;
-              }
+              prevEl: ".gallery-prev",
+              nextEl: ".gallery-next",
             }}
             pagination={{ clickable: true }}
             loop
@@ -186,113 +101,7 @@ const GalleryDetail = () => {
         </div>
       </Card>
 
-      <section className="mt-10">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2">
-            <h2 className="text-lg font-bold text-[#4988C4] whitespace-nowrap">댓글</h2>
-            <span className="flex size-5 items-center justify-center rounded-full bg-[#4988C4] text-xs text-white">
-              {comment.length}
-            </span>
-          </div>
-          {isCommenting?
-            <Button 
-              type="submit" 
-              variant="third" 
-              onClick={() => handleCommentSubmit()} 
-              disabled={isSubmitting}
-              className="w-20"
-            >
-              작성 완료
-            </Button>
-          :
-            <Button 
-              type="submit" 
-              variant="third" 
-              onClick={handleCommenting} 
-              className="w-20"
-            >
-              댓글 작성
-            </Button>
-          }
-          
-        </div>
-        
-
-        <div className="space-y-3">
-          <AnimatePresence>
-          {isCommenting && (
-            <motion.form
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.25 }}
-              className="relative mt-5 flex flex-col gap-3 sm:flex-row"
-              onSubmit={handleCommentSubmit}
-            >
-              <textarea
-                value={commentText}
-                placeholder="댓글을 입력하세요"
-                className="min-h-20 flex-1 resize-none rounded-xl border border-gray-200 px-4 py-3 pr-10 text-sm outline-none transition-colors placeholder:text-gray-300 focus:border-[#4988C4]"
-                onChange={(event) => setCommentText(event.target.value)}
-              />
-              <HiOutlineTrash size={18} onClick={handleCancleCommenting} className="absolute right-4 top-4 cursor-pointer text-black/25"/>
-              
-            </motion.form>
-          )}
-          </AnimatePresence>
-
-          {comments.length === 0 ? (
-            <p className="rounded-xl border border-gray-200 px-4 py-6 text-center text-sm text-gray-400">
-              아직 작성된 댓글이 없습니다.
-            </p>
-          ) : (
-            <AnimatePresence>
-            {comments.map((comment) => (
-              <motion.article
-                key={comment.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.25 }}
-                layout
-                className="rounded-xl border border-gray-200 bg-white px-4 py-3"
-              >
-                <div className="mb-2 flex items-start justify-between gap-3">
-                  <div className="min-w-0">
-                    <UserDisplayName user={comment.author} />
-                  </div>
-
-                  <div className="flex items-center gap-2 shrink-0">
-                    <p className="text-xs text-gray-400">
-                      {comment.createdAt}
-                    </p>
-
-                    {isAdmin && (
-                      <button
-                        type="button"
-                        onClick={() => handleDeleteComment(comment.id)}
-                        className="text-black/25 hover:text-red-400 transition-colors"
-                        aria-label="댓글 삭제"
-                      >
-                        <HiOutlineTrash size={16} />
-                      </button>
-                    )}
-                  </div>
-                </div>
-
-                <p className="whitespace-pre-line text-sm leading-6 text-gray-700">
-                  {comment.content}
-                </p>
-              </motion.article>
-            ))}
-            </AnimatePresence>
-          )}
-        </div>
-
-
-        
-        
-      </section>
+      <CommentSection postId={postId} target="gallery" />
     </div>
   );
 };

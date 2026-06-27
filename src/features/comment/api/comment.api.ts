@@ -1,7 +1,93 @@
-import { Comments } from "../../../mocks/comments.mock";
+import { GalleryComments, InfoComments } from "../../../mocks/comments.mock";
+import type { postAuthor } from "../../auth/types/post-author.type";
+import type { Comment } from "../types/comment.type";
 
-export const getCommentsByPostId = async (postId: number) => {
-  const comments = Comments.filter((comment) => comment.postId === postId);
+export type CommentTarget = "gallery" | "info-sharing";
 
-  return Promise.resolve(comments);
+type CommentApi = {
+  getByPostId: (postId: number) => Promise<Comment[]>;
+  create: (
+    postId: number,
+    author: postAuthor,
+    content: string,
+  ) => Promise<Comment>;
+  update: (commentId: number, content: string) => Promise<Comment>;
+  delete: (commentId: number) => Promise<void>;
 };
+
+/**
+ * 현재는 mock 데이터를 사용한다.
+ * 실제 API 연결 시 target별 구현체만 교체하면 호출부는 변경하지 않아도 된다.
+ */
+const createMockCommentApi = (initialComments: Comment[]): CommentApi => {
+  let comments = [...initialComments];
+  let nextCommentId =
+    Math.max(0, ...initialComments.map((comment) => comment.id)) + 1;
+
+  return {
+    getByPostId: async (postId) =>
+      comments.filter((comment) => comment.postId === postId),
+
+    create: async (postId, author, content) => {
+      const comment: Comment = {
+        id: nextCommentId++,
+        postId,
+        author,
+        content,
+        createdAt: "방금 전",
+      };
+
+      comments = [...comments, comment];
+      return comment;
+    },
+
+    update: async (commentId, content) => {
+      const existingComment = comments.find(
+        (comment) => comment.id === commentId,
+      );
+
+      if (!existingComment) throw new Error("댓글을 찾을 수 없습니다.");
+
+      const updatedComment = { ...existingComment, content };
+      comments = comments.map((comment) =>
+        comment.id === commentId ? updatedComment : comment,
+      );
+
+      return updatedComment;
+    },
+
+    delete: async (commentId) => {
+      comments = comments.filter((comment) => comment.id !== commentId);
+    },
+  };
+};
+
+const commentApiByTarget: Record<CommentTarget, CommentApi> = {
+  gallery: createMockCommentApi(GalleryComments),
+  "info-sharing": createMockCommentApi(InfoComments),
+};
+
+const getCommentApi = (target: CommentTarget) => commentApiByTarget[target];
+
+export const getCommentsByPostId = (
+  postId: number,
+  target: CommentTarget,
+) => getCommentApi(target).getByPostId(postId);
+
+export const createComment = (
+  postId: number,
+  target: CommentTarget,
+  author: postAuthor,
+  content: string,
+) => getCommentApi(target).create(postId, author, content);
+
+export const updateComment = (
+  commentId: number,
+  target: CommentTarget,
+  content: string,
+) => getCommentApi(target).update(commentId, content);
+
+export const deleteComment = (
+  commentId: number,
+  target: CommentTarget,
+) => getCommentApi(target).delete(commentId);
