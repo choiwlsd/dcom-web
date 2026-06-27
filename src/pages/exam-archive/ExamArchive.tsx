@@ -34,7 +34,7 @@ const ExamArchive = () => {
   const columns: DataTableColumn<ExamArchiveListType>[] = [
     {
       key: "subject",
-      header: "\uACFC\uBAA9\uBA85",
+      header: "과목명",
       width: "w-[50%]",
       render: (item) => (
         <div className="flex min-w-0 items-center gap-2 text-sm">
@@ -45,15 +45,15 @@ const ExamArchive = () => {
     },
     {
       key: "professor",
-      header: "\uAD50\uC218\uBA85",
-      width: "w-[25%]",
+      header: "교수명",
+      width: "w-[20%]",
       cellClassName: "truncate text-sm text-gray-700",
       render: (item) => item.professor,
     },
     {
       key: "date",
-      header: "\uCD5C\uADFC \uC218\uC815\uC77C",
-      width: "w-[25%]",
+      header: "최근 수정일",
+      width: "w-[17%]",
       cellClassName: "truncate text-sm text-gray-500",
       render: (item) => item.date,
     },
@@ -83,10 +83,10 @@ const ExamArchive = () => {
     <div className="px-4 py-8 sm:px-6 lg:px-20">
       <section className="mb-10">
         <h1 className="text-xl font-bold text-[#4988C4]">
-          {"\uC871\uBCF4 \uC544\uCE74\uC774\uBE0C"}
+          족보 아카이브
         </h1>
         <p className="mt-2 text-sm text-gray-500">
-          {"\uC120\uBC30\uB4E4\uC774 \uB0A8\uAE34 \uADC0\uC911\uD55C \uC804\uACF5 \uC790\uB8CC\uB97C \uD655\uC778\uD574\uBCF4\uC138\uC694."}
+          선배들이 남긴 귀중한 전공 자료를 확인해보세요.
         </p>
       </section>
 
@@ -110,7 +110,7 @@ const ExamArchive = () => {
 
       <section>
         <h2 className="mb-4 text-lg font-semibold">
-          {"\uCD5C\uADFC \uC5C5\uB85C\uB4DC\uB41C \uC871\uBCF4"}
+          최근 업로드된 족보
         </h2>
 
         <DataTable
@@ -118,11 +118,10 @@ const ExamArchive = () => {
           data={filteredArchives}
           rowKey={(item) => item.id}
           isLoading={isSearching}
-          loadingMessage={"\uAC80\uC0C9 \uC911..."}
-          emptyMessage={"\uAC80\uC0C9 \uACB0\uACFC\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4."}
+          loadingMessage="검색 중..."
+          emptyMessage="검색 결과가 없습니다."
           onRowClick={(item) => navigate(`/exam-archive/${item.id}`)}
         />
-
       </section>
     </div>
   );
