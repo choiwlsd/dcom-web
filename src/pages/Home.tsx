@@ -7,6 +7,8 @@ import { IoNotificationsOutline, IoChatbubbleOutline, IoPencilOutline, IoImageOu
 import khuBg from "../assets/khu-bg-1.png";
 import khuBg2 from "../assets/khu-bg-2.jpg"
 import khuBg3 from "../assets/khu-bg-3.jpg"
+import { useNotices } from "../features/notice/hooks/useNotices";
+import { useInfos } from "../features/info-sharing/hooks/useInfos";
 
 const homeBackgroundImages = [khuBg, khuBg2, khuBg3];
 
@@ -16,6 +18,10 @@ const Home = () => {
     const { data: exam } = useExam();
     // 최근 활동 사진 조회
     const { data: galleryPost } = useGallery();
+    // 공지사항 조회
+    const { data: notices } = useNotices();
+    // 정보공유 조회
+    const { data: infos } = useInfos();
 
     return (
         <>
@@ -27,11 +33,59 @@ const Home = () => {
                 <div className="grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
 
                     <Container title="공지사항" icon={IoNotificationsOutline} onViewAllClick={() => navigate("/notice")}>
-                        <p>공지사항 내용</p>
+                        {notices?.slice(0, 5).map(item => (
+                            <div
+                                key={item.id}
+                                className="flex py-1 text-sm hover:font-bold cursor-pointer items-center justify-between overflow-hidden"
+                                onClick={() => navigate(`/notice/${item.id}`)}
+                            >
+                                <p className="min-w-0 truncate">
+                                    <span className="inline">
+                                    {item.title.length > 21
+                                        ? `${item.title.slice(0, 21)}...`
+                                        : item.title}
+                                    </span>
+                                </p>
+                                <p className="text-gray-400 text-xs flex-shrink-0 ml-2">
+                                    <span className="sm:hidden">
+                                        {item.date.slice(5)}
+                                    </span>
+
+                                    <span className="hidden sm:inline">
+                                        {item.date}
+                                    </span>
+                                </p>
+                            </div>
+                        ))}
                     </Container> 
 
                     <Container title="정보공유" icon={IoChatbubbleOutline} onViewAllClick={() => navigate("/info-sharing")}>
-                        <p>정보공유게시판</p>
+                        {infos?.slice(0, 5).map(item => (
+                            <div
+                                key={item.id}
+                                className="flex py-1 text-sm hover:font-bold cursor-pointer items-center justify-between overflow-hidden"
+                                onClick={() => navigate(`/notice/${item.id}`)}
+                            >
+                                <p className="min-w-0 truncate">
+                                    {item.author.name}
+                                    {" | "}
+                                    <span className="inline">
+                                        {item.title.length > 18
+                                            ? `${item.title.slice(0, 18)}...`
+                                            : item.title}
+                                    </span>
+                                </p>
+                                <p className="text-gray-400 text-xs flex-shrink-0 ml-2">
+                                    <span className="sm:hidden">
+                                        {item.date.slice(5)}
+                                    </span>
+
+                                    <span className="hidden sm:inline">
+                                        {item.date}
+                                    </span>
+                                </p>
+                            </div>
+                        ))}
                     </Container>       
                     
                     <Container title="최근 등록 족보" icon={IoPencilOutline} onViewAllClick={() => navigate("/exam-archive")}>
@@ -42,18 +96,16 @@ const Home = () => {
                                 onClick={() => navigate(`/exam-archive/${item.id}`)}
                             >
                                 <p className="min-w-0 truncate">
-                                    <span className="sm:hidden">
-                                    {item.subject.length > 6
-                                        ? `${item.subject.slice(0, 6)}...`
+                                    {item.author.name}
+                                    {" | "}
+                                    <span className="inline">
+                                    {item.subject.length > 8
+                                        ? `${item.subject.slice(0, 8)}...`
                                         : item.subject}
                                     </span>
 
-                                    <span className="hidden sm:inline">
-                                    {item.subject}
-                                    </span>
-
-                                    {" | "}
-                                    {item.professor} - {item.author.userID}
+                                    {" - "}
+                                    {item.professor}
                                 </p>
 
                                 <p className="text-gray-400 text-xs flex-shrink-0 ml-2">
