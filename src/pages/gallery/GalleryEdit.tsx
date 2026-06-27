@@ -31,6 +31,7 @@ const GalleryEdit = () => {
         await updateGalleryPost(postId, post);
         navigate(`/gallery/${postId}`);
       }}
+      onCancel={() => navigate(`/gallery/${postId}`)}
     />
   );
 };

@@ -33,6 +33,7 @@ const InfoSharingEdit = () => {
         await updateInfoPost(postId, post);
         navigate(`/info/${postId}`);
       }}
+      onCancel={() => navigate(`/info/${postId}`)}
     />
   );
 };

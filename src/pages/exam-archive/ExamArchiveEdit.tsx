@@ -41,6 +41,7 @@ const ExamArchiveEdit = () => {
         await updateExamPost(archivePostId, postId, draft);
         navigate(`/exam-archive/${archivePostId}`);
       }}
+      onCancel={() => navigate(`/exam-archive/${archivePostId}`)}
     />
   );
 };

@@ -8,6 +8,8 @@ type ModalProps = {
   description: ReactNode;
   actionLabel?: string;
   onAction?: () => void;
+  secondaryActionLabel?: string;
+  onSecondaryAction?: () => void;
   labelledById?: string;
 };
 
@@ -18,13 +20,15 @@ export default function Modal({
   description,
   actionLabel,
   onAction,
+  secondaryActionLabel,
+  onSecondaryAction,
   labelledById = "modal-title",
 }: ModalProps) {
   if (!isOpen) return null;
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-8"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 px-8"
       role="dialog"
       aria-modal="true"
       aria-labelledby={labelledById}
@@ -51,13 +55,24 @@ export default function Modal({
           {description}
         </div>
 
-        <button
-          type="button"
-          className="text-xs font-medium text-blue-600 underline underline-offset-2"
-          onClick={onAction}
-        >
-          {actionLabel}
-        </button>
+        <div className="flex items-center justify-center gap-5">
+          {secondaryActionLabel && (
+            <button
+              type="button"
+              className="text-xs font-medium text-gray-500 underline underline-offset-2"
+              onClick={onSecondaryAction}
+            >
+              {secondaryActionLabel}
+            </button>
+          )}
+          <button
+            type="button"
+            className="text-xs font-medium text-blue-600 underline underline-offset-2"
+            onClick={onAction}
+          >
+            {actionLabel}
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -40,7 +40,7 @@ const Notice = () => {
     return (notices ?? []).filter(
       (notice) =>
         notice.title.toLowerCase().includes(keyword) ||
-        notice.author.toLowerCase().includes(keyword),
+        notice.author.name.toLowerCase().includes(keyword),
     );
   }, [notices, appliedKeyword]);
 
@@ -75,7 +75,7 @@ const Notice = () => {
       header: NOTICE_TEXT.author,
       width: "w-[20%]",
       cellClassName: "truncate text-sm text-gray-600",
-      render: (notice) => notice.author,
+      render: (notice) => notice.author.name,
     },
     {
       key: "date",

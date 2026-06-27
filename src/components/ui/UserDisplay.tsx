@@ -2,7 +2,7 @@
 
 type Props = {
   user: {
-    studentNumber: string;
+    studentNumber: string | number;
     name: string;
   };
 };

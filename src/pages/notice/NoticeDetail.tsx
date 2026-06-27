@@ -5,6 +5,7 @@ import { GoTrash } from "react-icons/go";
 import { HiOutlinePencil } from "react-icons/hi";
 import Loading from "../../components/Loading";
 import useAuth from "../../features/auth/hooks/useAuth";
+import UserDisplayName from "../../components/ui/UserDisplay";
 
 const NoticeDetail = () => {
   const { id } = useParams();
@@ -15,6 +16,7 @@ const NoticeDetail = () => {
 
   if (!notice) return <Loading /> 
   
+  console.log(notice.author);
 
   return(
     <div className="px-4 py-8 sm:px-6 lg:px-20">
@@ -39,8 +41,7 @@ const NoticeDetail = () => {
                       className="relative min-h-[220px] border-b border-gray-200 px-7 py-7 last:border-b-0"
                     >
                       <div className="mb-8 flex items-start justify-between gap-4">
-                        <div className="flex flex-wrap items-center gap-3 text-gray-900">
-                        </div>
+                        <UserDisplayName user={notice.author} />
                         <time className="shrink-0 text-sm text-gray-500">
                           {notice.date.replaceAll("-", ".")}
                         </time>

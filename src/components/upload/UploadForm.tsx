@@ -5,6 +5,7 @@ import Underline from "@tiptap/extension-underline";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { IoAdd, IoAttach, IoClose } from "react-icons/io5";
+import { FiChevronLeft } from "react-icons/fi";
 
 import { uploadPosts } from "../../features/upload/api/upload.api";
 import type {
@@ -12,6 +13,7 @@ import type {
   UploadPostDraft,
 } from "../../features/upload/types/upload.type";
 import { Button } from "../ui/Button";
+import Modal from "../ui/Modal";
 
 
 const baseNoticeConfig = {
@@ -62,6 +64,7 @@ type UploadFormProps = {
   initialPost?: Partial<UploadPostDraft>;
   submitLabel?: string;
   onSubmit?: (post: UploadPostDraft) => Promise<void>;
+  onCancel?: () => void;
 };
 
 type UploadEntry = UploadPostDraft & {
@@ -91,6 +94,19 @@ const createEntry = (
   ...initialPost,
 });
 
+const getEntriesSignature = (entries: UploadEntry[]) =>
+  JSON.stringify(
+    entries.map(({ files, ...entry }) => ({
+      ...entry,
+      files: files.map(({ name, size, lastModified, type }) => ({
+        name,
+        size,
+        lastModified,
+        type,
+      })),
+    })),
+  );
+
 export default function UploadForm({
   mode,
   title,
@@ -99,14 +115,37 @@ export default function UploadForm({
   initialPost,
   submitLabel = "업로드",
   onSubmit,
+  onCancel,
 }: UploadFormProps) {
   const nextIdRef = useRef(2);
-  const [entries, setEntries] = useState<UploadEntry[]>([
+  const [initialEntries] = useState<UploadEntry[]>(() => [
     createEntry(1, initialSubject, initialProfessor, initialPost),
   ]);
+  const [entries, setEntries] = useState<UploadEntry[]>(
+    () => initialEntries,
+  );
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
 
   const config = modeConfig[mode];
+  const canAddMultiplePosts = config.allowMultiplePosts && !onSubmit;
+  const isDirty =
+    getEntriesSignature(entries) !==
+    getEntriesSignature(initialEntries);
+
+  const requestCancel = () => {
+    if (onCancel && isDirty) {
+      setIsCancelModalOpen(true);
+      return;
+    }
+
+    if (onCancel) {
+      onCancel();
+      return;
+    }
+
+    window.history.back();
+  };
 
   const updateEntry = (id: number, patch: Partial<UploadPostDraft>) => {
     setEntries((currentEntries) =>
@@ -128,7 +167,7 @@ export default function UploadForm({
 
   const removeEntry = (id: number) => {
     if (entries.length === 1) {
-      window.history.back();
+      requestCancel();
       return;
     }
 
@@ -208,6 +247,16 @@ export default function UploadForm({
 
   return (
     <section className="mx-auto w-full max-w-[1100px] px-4 py-8 sm:px-6 lg:px-8">
+      {onCancel && (
+        <button
+          type="button"
+          className="mb-4 flex items-center gap-1 text-sm text-gray-400 transition-colors hover:text-[#4988C4]"
+          onClick={requestCancel}
+        >
+          <FiChevronLeft /> 이전 페이지로 돌아가기
+        </button>
+      )}
+
       <h1 className="mb-9 text-center text-2xl font-bold text-[#4988C4]">
         {title}
       </h1>
@@ -228,7 +277,7 @@ export default function UploadForm({
         </div>
 
         <div className="mt-5 flex items-center gap-4">
-          {config.allowMultiplePosts && (
+          {canAddMultiplePosts && (
             <button
               type="button"
               aria-label="업로드 항목 추가"
@@ -245,13 +294,28 @@ export default function UploadForm({
             fullWidth={false}
             disabled={isSubmitting}
             className={`h-9 min-w-[74px] rounded-full bg-[#4B7FF3] px-5 py-0 text-xs hover:bg-[#3767D7] disabled:cursor-not-allowed disabled:opacity-60 ${
-              !config.allowMultiplePosts ? "ml-auto" : ""
+              !canAddMultiplePosts ? "ml-auto" : ""
             }`}
           >
             {isSubmitting ? "전송 중" : submitLabel}
           </Button>
         </div>
       </form>
+
+      <Modal
+        isOpen={isCancelModalOpen}
+        badge="수정 취소"
+        title="변경사항이 저장되지 않았습니다."
+        description="수정을 취소하시겠습니까?"
+        actionLabel="예"
+        onAction={() => {
+          setIsCancelModalOpen(false);
+          onCancel?.();
+        }}
+        secondaryActionLabel="아니오"
+        onSecondaryAction={() => setIsCancelModalOpen(false)}
+        labelledById="edit-cancel-modal-title"
+      />
     </section>
   );
 }

@@ -1,8 +1,10 @@
+import { type postAuthor } from "../../auth/types/post-author.type";
+
 // 공지사항 목록 조회
 export interface NoticeType {
   id: number;
   title: string;
-  author: string;
+  author: postAuthor;
   date: string;
   hasAttachment: boolean;
 }
@@ -12,7 +14,7 @@ export interface NoticeDetailType {
   id: number;
   title: string;
   description: string;
-  author: string;
+  author: postAuthor;
   date: string;
   files?: string[];
 }

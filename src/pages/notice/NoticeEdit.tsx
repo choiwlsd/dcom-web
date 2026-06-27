@@ -30,6 +30,7 @@ const NoticeEdit = () => {
         await updateNoticePost(postId, post);
         navigate(`/notice/${postId}`);
       }}
+      onCancel={() => navigate(`/notice/${postId}`)}
     />
   );
 };
